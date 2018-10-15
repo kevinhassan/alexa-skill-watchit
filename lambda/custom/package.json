@@ -1,5 +1,5 @@
 {
-  "name": "alexa-skill-whatchit",
+  "name": "whatchit",
   "version": "0.1.0",
   "description": "Series and movies tracker with the Alexa assistant and Betaseries API",
   "main": "index.js",
