@@ -1,32 +1,79 @@
 {
   "interactionModel": {
     "languageModel": {
-        "invocationName": "watch it",
-        "intents": [
+      "invocationName": "watchit",
+      "intents": [
+        {
+          "name": "GetSynopsisFilmIntent",
+          "slots": [
             {
-                "name": "AMAZON.CancelIntent",
-                "samples": []
-            },
-            {
-                "name": "AMAZON.HelpIntent",
-                "samples": []
-            },
-            {
-                "name": "AMAZON.StopIntent",
-                "samples": []
-            },
-            {
-                "name": "AMAZON.NavigateHomeIntent",
-                "samples": []
-            },
-            {
-                "name": "HelloIntent",
-                "samples": [
-                    "hello"
-                ]
+              "name": "movie",
+              "type": "AMAZON.Movie",
+              "samples": [
+                "c'est {movie}",
+                "{movie}"
+              ]
             }
-        ],
-        "types": []
-    }
+          ],
+          "samples": [
+            "Trouve moi le résumé de {movie}",
+            "Trouve moi le  résumé du film {movie}",
+            "Quel est le résumé du film {movie}",
+            "Donne moi le résumé du film {movie}",
+            "Donne moi le résumé de {movie}"
+          ]
+        },
+        {
+          "name": "AMAZON.RepeatIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "GetSynopsisFilmIntent",
+          "confirmationRequired": false,
+          "slots": [
+            {
+              "name": "movie",
+              "type": "AMAZON.Movie",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.151068529295.1010702485474"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.151068529295.1010702485474",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Which movie ?"
+          }
+        ]
+      }
+    ]
   }
 }
