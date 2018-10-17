@@ -1,6 +1,7 @@
 'use strict';
 const Alexa = require('alexa-sdk');
 const https = require('https');
+var tools = require('./util');
 
 const handlers = {
     'LaunchRequest': function() {
@@ -8,7 +9,7 @@ const handlers = {
     },
     'GetSynopsisFilmIntent': function() {
         // Make a request for a user with a given ID
-        const movieName = cleanUpSpecialChars(this.event.request.intent.slots.movie.value);
+        const movieName = tools.clean(this.event.request.intent.slots.movie.value);
         const negativeResponseSynopsis = [
             'Désolé je ne parviens pas à retrouver le résumé du film' + movieName,
             'Je n\'ai pas pu trouver le résumé du film que vous avez demandé',
@@ -67,13 +68,6 @@ const handlers = {
     },
 };
 
-function cleanUpSpecialChars(str) {
-    return str
-        .replace(/[ÀÁÂÃÄÅ]/g, "A")
-        .replace(/[àáâãäå]/g, "a")
-        .replace(/[ÈÉÊË]/g, "E")
-        .replace(/[èéêë]/g, "e")
-}
 
 exports.handler = function(event, context, callback) {
     const alexa = Alexa.handler(event, context, callback);
