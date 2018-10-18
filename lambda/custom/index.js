@@ -26,21 +26,27 @@ const handlers = {
     },
 
     'HandleChoiceIntent': function() {
-        const choice = tools.clean(this.event.request.intent.slots.choice.value)
-        if (choice == 'film') {
+            const choice = tools.clean(this.event.request.intent.slots.choice.value)
+            this.response.speak(choice)
+
+        }
+        /*if (choice == 'film') {
             const responseIndex = Math.floor(Math.random() * Math.floor(sentenceForSynopsis.length));
             this.response.speak("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
-            this.listen("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
+            this.response.listen("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
             this.emit(":responseReady")
         } else if (choice == 'serie') {
             this.emit(':ask', 'C\'est pas pour tout de suite mon gars')
             this.emit(":responseReady")
 
-        } else {
-            this.response.listen("Vous devez choisir entre films et séries")
         }
+    },*/
+        /*else {
+                   this.response.listen("Vous devez choisir entre films et séries")
+               }*/
 
-    },
+    //},
+    ,
     'GetSynopsisFilmIntent': function() {
         // Make a request for a user with a given ID
         const movieName = tools.clean(this.event.request.intent.slots.movie.value);
@@ -67,8 +73,6 @@ const handlers = {
                     this.response.speak("Le résumé de " + movieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?") //.emit(':responseReady');
                     this.response.listen("Que puis-je faire d'autres pour vous ?")
                     this.emit(":responseReady")
-                        //this.emit(":responseReady:ask", "Que puis-je faire d'autres pour vous ?");
-                        //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
                 } else {
                     const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
                     this.response.speak(negativeResponseSynopsis[responseIndex])
