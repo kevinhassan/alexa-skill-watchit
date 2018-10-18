@@ -3,17 +3,51 @@ const Alexa = require('alexa-sdk');
 const https = require('https');
 var tools = require('./util');
 
+const randomQuestionsAfterSynopsis = [
+    "Que puis-je faire d'autres pour vous ? Je peux aussi vous donner le résumé d'une série ",
+    "Que voulez vous faire maintenant ? Je peux vous donner les personnage de ce film",
+    " Je vo"
+]
+
+const sentenceForSynopsis = [
+    "Le résumé de {movie}",
+    "Le film {movie}",
+    "Trouve moi le résumé de {movie}",
+    "Trouve moi le  résumé du film {movie}",
+    "Quel est le résumé du film {movie}",
+    "Donne moi le résumé du film {movie}",
+    "Donne moi le résumé de {movie}"
+]
+
 const handlers = {
     'LaunchRequest': function() {
-        this.emit(':ask', 'Bonjour et bienvenue dans la skill WatchIt que puis-je faire pour vous ?');
+        this.emit(':ask', 'Bonjour et bienvenue dans la skill WatchIt.\nJe peux vous donner des caractéristiques de films ou de séries. Lequel voulez-vous ?')
+        this.response.listen("Je peux vous donner des caractéristiques de films ou de séries. Lequel voulez-vous ?")
+    },
+
+    'HandleChoiceIntent': function() {
+        const choice = tools.clean(this.event.request.intent.slots.choice.value)
+        if (choice == 'film') {
+            const responseIndex = Math.floor(Math.random() * Math.floor(sentenceForSynopsis.length));
+            this.response.speak("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
+            this.listen("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
+            this.emit(":responseReady")
+        } else if (choice == 'serie') {
+            this.emit(':ask', 'C\'est pas pour tout de suite mon gars')
+            this.emit(":responseReady")
+
+        } else {
+            this.response.listen("Vous devez choisir entre films et séries")
+        }
+
     },
     'GetSynopsisFilmIntent': function() {
         // Make a request for a user with a given ID
         const movieName = tools.clean(this.event.request.intent.slots.movie.value);
         const negativeResponseSynopsis = [
-            'Désolé je ne parviens pas à retrouver le résumé du film' + movieName,
+            'Désolé je ne parviens pas à retrouver le résumé du film ' + movieName,
             'Je n\'ai pas pu trouver le résumé du film que vous avez demandé',
-            'Oups je n\ai pas trouver le résume du film' + movieName
+            'Oups je n\ai pas trouver le résume du film ' + movieName
         ];
 
         https.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName, (resp) => {
@@ -30,13 +64,15 @@ const handlers = {
                 const moviesData = JSON.parse(data)
                 if (moviesData.movies.length != 0) {
                     const speechOutput = moviesData.movies[0].synopsis
-                    this.response.speak("Le résumé de " + movieName + " est :" + speechOutput) //.emit(':responseReady');
-                    this.emit(':responseReady');
-
-                    //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
+                    this.response.speak("Le résumé de " + movieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?") //.emit(':responseReady');
+                    this.response.listen("Que puis-je faire d'autres pour vous ?")
+                    this.emit(":responseReady")
+                        //this.emit(":responseReady:ask", "Que puis-je faire d'autres pour vous ?");
+                        //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
                 } else {
                     const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
                     this.response.speak(negativeResponseSynopsis[responseIndex])
+                    this.response.listen("Que puis-je faire d'autres pour vous ?")
                     this.emit(':responseReady');
 
                     //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");

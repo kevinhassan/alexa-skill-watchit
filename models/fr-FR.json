@@ -13,12 +13,23 @@
                         ]
                     }],
                     "samples": [
+                        "Le résumé de {movie}",
                         "Le film {movie}",
                         "Trouve moi le résumé de {movie}",
                         "Trouve moi le  résumé du film {movie}",
                         "Quel est le résumé du film {movie}",
                         "Donne moi le résumé du film {movie}",
                         "Donne moi le résumé de {movie}"
+                    ]
+                }, {
+                    "name": "HandleChoiceIntent",
+                    "slots": [{
+                        "name": "choice",
+                        "type": "FILM_SERIE"
+                    }],
+                    "samples": [
+                        "Je veux des caractéristiques de {choice}",
+                        "On va partir sur des {choice}"
                     ]
                 },
                 {
@@ -41,7 +52,21 @@
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
                 }
-            ]
+            ],
+            "types": [{
+                "values": [{
+                        "name": {
+                            "value": "serie"
+                        }
+                    },
+                    {
+                        "name": {
+                            "value": "film"
+                        }
+                    }
+                ],
+                "name": "FILM_SERIE"
+            }]
         },
         "dialog": {
             "intents": [{
