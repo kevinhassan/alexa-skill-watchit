@@ -3,6 +3,7 @@ const Alexa = require('alexa-sdk');
 const https = require('https');
 var tools = require('./util');
 
+var choice = ''
 const randomQuestionsAfterSynopsis = [
     "Que puis-je faire d'autres pour vous ? Je peux aussi vous donner le résumé d'une série ",
     "Que voulez vous faire maintenant ? Je peux vous donner les personnage de ce film",
@@ -26,27 +27,24 @@ const handlers = {
     },
 
     'HandleChoiceIntent': function() {
-            const choice = tools.clean(this.event.request.intent.slots.choice.value)
-            this.response.speak(choice)
-
-        }
-        /*if (choice == 'film') {
-            const responseIndex = Math.floor(Math.random() * Math.floor(sentenceForSynopsis.length));
-            this.response.speak("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
-            this.response.listen("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseIndex])
+        const choice = tools.clean(this.event.request.intent.slots.choice.value)
+        if (choice == 'film') {
+            const responseChoiceIndex = Math.floor(Math.random() * Math.floor(sentenceForSynopsis.length));
+            this.response.speak("Voila quelques phrases que vous pouvez dire : \n\n" + sentenceForSynopsis[responseChoiceIndex])
+            this.response.listen()
             this.emit(":responseReady")
+
         } else if (choice == 'serie') {
-            this.emit(':ask', 'C\'est pas pour tout de suite mon gars')
+            this.emit(':ask', 'C\'est Joris qui doit le faire')
             this.emit(":responseReady")
 
+        } else {
+            this.response.speak("Vous devez choisir entre film et serie. \n Voila quelques phrases que vous pouvez dire : ")
+            this.response.listen()
+            this.emit(":responseReady")
         }
-    },*/
-        /*else {
-                   this.response.listen("Vous devez choisir entre films et séries")
-               }*/
 
-    //},
-    ,
+    },
     'GetSynopsisFilmIntent': function() {
         // Make a request for a user with a given ID
         const movieName = tools.clean(this.event.request.intent.slots.movie.value);
@@ -113,4 +111,4 @@ exports.handler = function(event, context, callback) {
     const alexa = Alexa.handler(event, context, callback);
     alexa.registerHandlers(handlers);
     alexa.execute();
-};
+}
