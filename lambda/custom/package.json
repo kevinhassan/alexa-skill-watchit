@@ -25,7 +25,8 @@
         "email": "kevin.hassan@etu.umontpellier.fr",
         "site": "kevinhassan.github.io"
     },
-    "contributors": [{
+    "contributors": [
+        {
             "name": "Joris Granel",
             "email": "joris.granel@etu.umontpellier.fr"
         },

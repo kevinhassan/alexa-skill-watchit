@@ -2,6 +2,7 @@
 const Alexa = require('alexa-sdk');
 const https = require('https');
 var tools = require('./util');
+const axios = require('axios')
 
 const handlers = {
     'LaunchRequest': function() {
@@ -16,7 +17,7 @@ const handlers = {
             'Oups je n\ai pas trouver le résume du film' + movieName
         ];
 
-        https.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName, (resp) => {
+        /**https.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName, (resp) => {
             let data = '';
 
             // A chunk of data has been recieved.
@@ -41,31 +42,53 @@ const handlers = {
 
                     //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
                 }
-            });
+            });*/
 
-        })
+        axios.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName)
+            .then(function(response) {
+                // handle success
+                if (response.movies.length != 0) {
+                    const speechOutput = response.movies[0].synopsis
+                    this.response.speak("Le résumé de " + movieName + " est :" + speechOutput) //.emit(':responseReady');
+                    this.emit(':responseReady');
+                } else {
+                    const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
+                    this.response.speak(negativeResponseSynopsis[responseIndex])
+                    this.emit(':responseReady');
+
+                    //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
+                }
 
 
-        /*.catch(function(error) {
-                        this.response.speak("Impossible de trouver le résumé de ce film");
-                        this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
-                    })*/
-    },
-    'AMAZON.HelpIntent': function() {
-        const speechOutput = HELP_MESSAGE;
-        const reprompt = HELP_REPROMPT;
+            })
+            /*.catch(function(error) {
+                // handle error
+                console.log(error);
+            })*/
 
-        this.response.speak(speechOutput).listen(reprompt);
-        this.emit(':responseReady');
-    },
-    'AMAZON.CancelIntent': function() {
-        this.response.speak(STOP_MESSAGE);
-        this.emit(':responseReady');
-    },
-    'AMAZON.StopIntent': function() {
-        this.response.speak(STOP_MESSAGE);
-        this.emit(':responseReady');
-    },
+    })
+
+
+/*.catch(function(error) {
+                this.response.speak("Impossible de trouver le résumé de ce film");
+                this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
+            })*/
+},
+'AMAZON.HelpIntent': function() {
+    const speechOutput = HELP_MESSAGE;
+    const reprompt = HELP_REPROMPT;
+
+    this.response.speak(speechOutput).listen(reprompt);
+    this.emit(':responseReady');
+},
+'AMAZON.CancelIntent': function() {
+    this.response.speak(STOP_MESSAGE);
+    this.emit(':responseReady');
+},
+'AMAZON.StopIntent': function() {
+    this.response.speak(STOP_MESSAGE);
+    this.emit(':responseReady');
+},
 };
 
 
