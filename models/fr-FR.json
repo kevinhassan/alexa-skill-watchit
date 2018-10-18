@@ -33,6 +33,35 @@
                     ]
                 },
                 {
+                    "name" : "GetSynopsisSerieIntent",
+                    "slots" : [{
+                        "name" : "serie",
+                        "type" : "AMAZON.SearchQuery"
+                    }],
+                    "samples": [
+                        "Le résumé de {serie}",
+                        "Trouve moi le résumé de {serie}",
+                        "Trouve moi le résumé de la série {serie}",
+                        "Quel est le résumé de la série {serie}",
+                        "Donne moi le résumé de la série {serie}",
+                        "Donne moi le résumé de {serie}"
+                        ]
+                },
+                {
+                    "name" : "GetNumberSeasonSerieIntent",
+                    "slots" : [{
+                        "name" : "serie",
+                        "type" : "AMAZON.SearchQuery"
+                    }],
+                    "samples": [
+                        "Le nombre de saison de la {serie}",
+                        "Trouve moi le nombre de saison de la {serie}",
+                        "Trouve moi le nombre de saison de la série la {serie}",
+                        "Quel est le nombre de saison de la {serie}",
+                        "Donne moi le nombre de saison de la {serie}"
+                        ]
+                },
+                {
                     "name": "AMAZON.RepeatIntent",
                     "samples": []
                 },
