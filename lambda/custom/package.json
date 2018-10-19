@@ -25,7 +25,8 @@
         "email": "kevin.hassan@etu.umontpellier.fr",
         "site": "kevinhassan.github.io"
     },
-    "contributors": [{
+    "contributors": [
+        {
             "name": "Joris Granel",
             "email": "joris.granel@etu.umontpellier.fr"
         },
@@ -50,7 +51,7 @@
     },
     "dependencies": {
         "alexa-sdk": "^1.0.25",
-        "axios": "^0.18.0",
+        "axios": "^0.16.2",
         "express": "^4.16.4"
     }
 }

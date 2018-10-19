@@ -123,8 +123,8 @@ const handlers = {
 
                 const serieData = JSON.parse(data)
                 if (serieData.shows.length != 0) {
-                    const speechOutput = serieData.shows[0].synopsis
-                    this.response.speak("Le résumé de " + serieData + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
+                    const speechOutput = serieData.shows[0].description
+                    this.response.speak("Le résumé de " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
                     this.response.listen("Que puis-je faire d'autres pour vous ?")
                     this.emit(":responseReady")
                 } else {
@@ -161,7 +161,7 @@ const handlers = {
                 const serieData = JSON.parse(data)
                 if (serieData.shows.length != 0) {
                     const speechOutput = serieData.shows[0].seasons
-                    this.response.speak("Le nombre de saison de la série " + serieData + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
+                    this.response.speak("Le nombre de saison de la série " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
                     this.response.listen("Que puis-je faire d'autres pour vous ?")
                     this.emit(":responseReady")
                 } else {
