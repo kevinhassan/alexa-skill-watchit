@@ -65,6 +65,7 @@ const handlers = {
     'GetSynopsisFilmIntent': function() {
         // Make a request for a user with a given ID
         const movieName = tools.clean(this.event.request.intent.slots.movie.value);
+        this.attributes.film = movieName
         const negativeResponseSynopsis = [
             'Désolé je ne parviens pas à retrouver le résumé du film ' + movieName,
             'Je n\'ai pas pu trouver le résumé du film que vous avez demandé',
@@ -85,7 +86,6 @@ const handlers = {
                     this.response.listen("Que puis-je faire d'autres pour vous ?")
                     this.emit(':responseReady');
 
-                    //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
                 }
 
             }).catch((error) => {
