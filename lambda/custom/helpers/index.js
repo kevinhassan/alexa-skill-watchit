@@ -1,5 +1,1 @@
-const linkHelper = require('./linkHelper')
-
-module.exports = {
-  linkHelper
-}
+module.exports.linkHelper = require('./linkHelper')

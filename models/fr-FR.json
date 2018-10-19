@@ -2,41 +2,20 @@
     "interactionModel": {
         "languageModel": {
             "invocationName": "watch it",
-            "intents": [{
+            "intents": [
+                {
                     "name": "GetSynopsisIntent",
-                    "slots": [{
-                        "name": "title",
-                        "type": "AMAZON.Movie"
-                    }],
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
                     "samples": [
                         "Trouve moi le résumé de {title}",
                         "Quel est le résumé de {title}",
                         "Donne moi le résumé de {title}",
                         "Résumé de {title}"
-                    ]
-                }, {
-                    "name": "ChoiceIntent",
-                    "slots": [{
-                        "name": "choice",
-                        "type": "FILM_SERIE"
-                    }],
-                    "samples": [
-                        "Je veux des caractéristiques de {choice}",
-                        "On va partir sur des {choice}"
-                    ]
-                },
-                {
-                    "name": "GetNumberSeasonSerieIntent",
-                    "slots": [{
-                        "name": "serie",
-                        "type": "AMAZON.Movie"
-                    }],
-                    "samples": [
-                        "Le nombre de saison de la {serie}",
-                        "Trouve moi le nombre de saison de la {serie}",
-                        "Trouve moi le nombre de saison de la série la {serie}",
-                        "Quel est le nombre de saison de la {serie}",
-                        "Donne moi le nombre de saison de la {serie}"
                     ]
                 },
                 {
@@ -58,22 +37,45 @@
                 {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
+                },
+                {
+                    "name": "ChoiceIntent",
+                    "slots": [
+                        {
+                            "name": "choice",
+                            "type": "choice"
+                        }
+                    ],
+                    "samples": [
+                        "{choice}"
+                    ]
                 }
             ],
-            "types": [{
-                "values": [{
-                        "name": {
-                            "value": "serie"
+            "types": [
+                {
+                    "name": "choice",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "série",
+                                "synonyms": [
+                                    "series",
+                                    "séries",
+                                    "serie"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "film",
+                                "synonyms": [
+                                    "films"
+                                ]
+                            }
                         }
-                    },
-                    {
-                        "name": {
-                            "value": "film"
-                        }
-                    }
-                ],
-                "name": "FILM_SERIE"
-            }]
+                    ]
+                }
+            ]
         }
 
     }
