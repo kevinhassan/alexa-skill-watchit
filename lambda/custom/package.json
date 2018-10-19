@@ -51,7 +51,7 @@
     },
     "dependencies": {
         "alexa-sdk": "^1.0.25",
-        "axios": "^0.18.0",
+        "axios": "^0.16.2",
         "express": "^4.16.4"
     }
 }

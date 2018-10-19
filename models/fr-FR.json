@@ -13,12 +13,52 @@
                         ]
                     }],
                     "samples": [
+                        "Le résumé de {movie}",
                         "Le film {movie}",
                         "Trouve moi le résumé de {movie}",
                         "Trouve moi le  résumé du film {movie}",
                         "Quel est le résumé du film {movie}",
                         "Donne moi le résumé du film {movie}",
                         "Donne moi le résumé de {movie}"
+                    ]
+                }, {
+                    "name": "HandleChoiceIntent",
+                    "slots": [{
+                        "name": "choice",
+                        "type": "FILM_SERIE"
+                    }],
+                    "samples": [
+                        "Je veux des caractéristiques de {choice}",
+                        "On va partir sur des {choice}"
+                    ]
+                },
+                {
+                    "name": "GetSynopsisSerieIntent",
+                    "slots": [{
+                        "name": "serie",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Le résumé de {serie}",
+                        "Trouve moi le résumé de {serie}",
+                        "Trouve moi le résumé de la série {serie}",
+                        "Quel est le résumé de la série {serie}",
+                        "Donne moi le résumé de la série {serie}",
+                        "Donne moi le résumé de {serie}"
+                    ]
+                },
+                {
+                    "name": "GetNumberSeasonSerieIntent",
+                    "slots": [{
+                        "name": "serie",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Le nombre de saison de la {serie}",
+                        "Trouve moi le nombre de saison de la {serie}",
+                        "Trouve moi le nombre de saison de la série la {serie}",
+                        "Quel est le nombre de saison de la {serie}",
+                        "Donne moi le nombre de saison de la {serie}"
                     ]
                 },
                 {
@@ -41,7 +81,21 @@
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
                 }
-            ]
+            ],
+            "types": [{
+                "values": [{
+                        "name": {
+                            "value": "serie"
+                        }
+                    },
+                    {
+                        "name": {
+                            "value": "film"
+                        }
+                    }
+                ],
+                "name": "FILM_SERIE"
+            }]
         },
         "dialog": {
             "intents": [{
