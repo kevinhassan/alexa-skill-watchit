@@ -1,24 +1,18 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "watchit",
+            "invocationName": "watch it",
             "intents": [{
-                    "name": "GetSynopsisFilmIntent",
+                    "name": "GetSynopsisIntent",
                     "slots": [{
-                        "name": "movie",
-                        "type": "AMAZON.Movie",
-                        "samples": [
-                            "c'est {movie}",
-                            "{movie}"
-                        ]
+                        "name": "choice",
+                        "type": "AMAZON.Movie"
                     }],
                     "samples": [
-                        "Le film {movie}",
-                        "Trouve moi le résumé de {movie}",
-                        "Trouve moi le  résumé du film {movie}",
-                        "Quel est le résumé du film {movie}",
-                        "Donne moi le résumé du film {movie}",
-                        "Donne moi le résumé de {movie}"
+                        "Trouve moi le résumé de {choice}",
+                        "Quel est le résumé de {choice}",
+                        "Donne moi le résumé de {choice}",
+                        "Résumé de {choice}"
                     ]
                 },
                 {
@@ -42,28 +36,6 @@
                     "samples": []
                 }
             ]
-        },
-        "dialog": {
-            "intents": [{
-                "name": "GetSynopsisFilmIntent",
-                "confirmationRequired": false,
-                "slots": [{
-                    "name": "movie",
-                    "type": "AMAZON.Movie",
-                    "elicitationRequired": true,
-                    "confirmationRequired": false,
-                    "prompts": {
-                        "elicitation": "Elicit.Slot.151068529295.1010702485474"
-                    }
-                }]
-            }]
-        },
-        "prompts": [{
-            "id": "Elicit.Slot.151068529295.1010702485474",
-            "variations": [{
-                "type": "PlainText",
-                "value": "Which movie ?"
-            }]
-        }]
+        }
     }
 }
