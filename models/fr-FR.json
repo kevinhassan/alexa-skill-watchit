@@ -49,6 +49,42 @@
                     "samples": [
                         "{choice}"
                     ]
+                },
+                {
+                    "name": "GetNumberSeasonIntent",
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
+                    "samples": [
+                        "Quel est la dernière saison de {title}",
+                        "Quel est la dernière saison de la série {title}",
+                        "Combien de saison a la série{title} ",
+                        "Combien de saison a {title} ",
+                        "Trouve moi le nombre de saison de {title}",
+                        "Trouve moi le nombre de saison de la série {title}"
+                    ]
+                },
+                {
+                    "name": "GetNumberEpisodesIntent",
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        },
+                        {
+                            "name": "numberSeason",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "Combien d'épisode a la saison {numberSeason} de {title}",
+                        "Combien d'épisode a la saison {numberSeason} de la série {title}",
+                        "Combien d'épisode a {title}",
+                        "Combien d'épisode a la série {title}"
+                    ]
                 }
             ],
             "types": [
@@ -77,6 +113,5 @@
                 }
             ]
         }
-
     }
 }
