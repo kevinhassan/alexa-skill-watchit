@@ -2,20 +2,35 @@
     "interactionModel": {
         "languageModel": {
             "invocationName": "watch it",
-            "intents": [
-                {
+            "intents": [{
                     "name": "GetSynopsisIntent",
-                    "slots": [
-                        {
-                            "name": "title",
-                            "type": "AMAZON.Movie"
-                        }
-                    ],
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
                     "samples": [
                         "Trouve moi le résumé de {title}",
                         "Quel est le résumé de {title}",
                         "Donne moi le résumé de {title}",
                         "Résumé de {title}"
+                    ]
+                },
+                {
+                    "name": "GetAnneeWithFixTitleIntent",
+                    "samples": [
+                        "Année",
+                        "Année de l'oeuvre"
+                    ]
+                },
+                {
+                    "name": "GetAnneeTitleIntent",
+                    "slots": [{
+                        "name": "oeuvre",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Année de {oeuvre}",
+                        "L'année de creation de {oeauvre}"
                     ]
                 },
                 {
@@ -40,42 +55,37 @@
                 },
                 {
                     "name": "ChoiceIntent",
-                    "slots": [
-                        {
-                            "name": "choice",
-                            "type": "choice"
-                        }
-                    ],
+                    "slots": [{
+                        "name": "choice",
+                        "type": "choice"
+                    }],
                     "samples": [
                         "{choice}"
                     ]
                 }
             ],
-            "types": [
-                {
-                    "name": "choice",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "série",
-                                "synonyms": [
-                                    "series",
-                                    "séries",
-                                    "serie"
-                                ]
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "film",
-                                "synonyms": [
-                                    "films"
-                                ]
-                            }
+            "types": [{
+                "name": "choice",
+                "values": [{
+                        "name": {
+                            "value": "série",
+                            "synonyms": [
+                                "series",
+                                "séries",
+                                "serie"
+                            ]
                         }
-                    ]
-                }
-            ]
+                    },
+                    {
+                        "name": {
+                            "value": "film",
+                            "synonyms": [
+                                "films"
+                            ]
+                        }
+                    }
+                ]
+            }]
         }
 
     }
