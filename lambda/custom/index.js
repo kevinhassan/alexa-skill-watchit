@@ -30,6 +30,11 @@ const sentenceForSerieSynopsis = [
     "Donne moi le résumé de {serie}"
 ]
 
+const errorResponses = [
+    "BetaSeries n'est pas disponible pour le moment, Veuillez réessayer plus tard.",
+    "Oups BetaSeries n'a pas répondu. Réessayer dans un petit moment."
+]
+
 const handlers = {
     'LaunchRequest': function() {
         this.emit(':ask', 'Bonjour et bienvenue dans la skill WatchIt.\nJe peux vous donner des caractéristiques de films ou de séries. Lequel voulez-vous ?')
@@ -67,42 +72,29 @@ const handlers = {
         ];
 
         axios.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName)
-            .then(function(response) {
-                const speechOutput = response.movies[0].synopsis
-                this.response.speak("Le résumé de " + movieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?") //.emit(':responseReady');
-                this.emit(":responseReady")
+            .then((response) => {
+                const moviesData = response.data
+                if (moviesData.movies.length != 0) {
+                    const speechOutput = moviesData.movies[0].synopsis
+                    this.response.speak("Le résumé de " + movieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?") //.emit(':responseReady');
+                    this.response.listen("Que puis-je faire d'autres pour vous ?")
+                    this.emit(":responseReady")
+                } else {
+                    const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
+                    this.response.speak(negativeResponseSynopsis[responseIndex])
+                    this.response.listen("Que puis-je faire d'autres pour vous ?")
+                    this.emit(':responseReady');
 
-            }).catch(function(error) {
-                this.response.speak(error)
+                    //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
+                }
+
+            }).catch((error) => {
+                console.log(error)
+                const responseIndex = Math.floor(Math.random() * Math.floor(errorResponses.length));
+                this.response.speak(errorResponses[responseIndex]).listen()
                 this.emit(":responseReady")
 
             })
-            /**https.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName, (resp) => {
-                let data = '';
-
-                // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
-
-                // The whole response has been received. Print out the result.
-                resp.on('end', () => {
-
-                    const moviesData = JSON.parse(data)
-                    if (moviesData.movies.length != 0) {
-                        const speechOutput = moviesData.movies[0].synopsis
-                        this.response.speak("Le résumé de " + movieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?") //.emit(':responseReady');
-                        this.response.listen("Que puis-je faire d'autres pour vous ?")
-                        this.emit(":responseReady")
-                    } else {
-                        const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
-                        this.response.speak(negativeResponseSynopsis[responseIndex])
-                        this.response.listen("Que puis-je faire d'autres pour vous ?")
-                        this.emit(':responseReady');
-
-                        //this.emit(':ask', "Que puis-je faire d'autres pour vous ?");
-                    }
-                });*/
     },
 
     'GetSynopsisSerieIntent': function() {
@@ -114,18 +106,8 @@ const handlers = {
             'Oups je n\ai pas trouver le résume de la série ' + serieName
         ];
 
-        https.get('https://api.betaseries.com/shows/search?key=fc9ace0877d3&title=' + serieName, (resp) => {
-            let data = '';
-
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-
-                const serieData = JSON.parse(data)
+        axios.get('https://api.betaseries.com/shows/search?key=fc9ace0877d3&title=' + serieName)
+            .then((response) => {
                 if (serieData.shows.length != 0) {
                     const speechOutput = serieData.shows[0].description
                     this.response.speak("Le résumé de " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
@@ -137,9 +119,11 @@ const handlers = {
                     this.response.listen(negativeResponseSynopsis[responseIndex])
                     this.emit(':responseReady');
                 }
-            });
-
-        })
+            }).catch((error) => {
+                const responseIndex = Math.floor(Math.random() * Math.floor(errorResponses.length));
+                this.response.speak(errorResponses[responseIndex]).listen()
+                this.emit(":responseReady")
+            })
     },
 
     'GetNumberSeasonSerieIntent': function() {
@@ -151,32 +135,26 @@ const handlers = {
             'Oups je n\ai pas trouver le nombre de saison de la série ' + serieName
         ];
 
-        https.get('https://api.betaseries.com/shows/search?key=fc9ace0877d3&title=' + serieName, (resp) => {
-            let data = '';
-
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-
-                const serieData = JSON.parse(data)
-                if (serieData.shows.length != 0) {
-                    const speechOutput = serieData.shows[0].seasons
-                    this.response.speak("Le nombre de saison de la série " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
-                    this.response.listen("Que puis-je faire d'autres pour vous ?")
-                    this.emit(":responseReady")
-                } else {
-                    const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
-                    this.response.speak(negativeResponseSynopsis[responseIndex])
-                    this.response.listen(negativeResponseSynopsis[responseIndex])
-                    this.emit(':responseReady');
+        axios.get('https://api.betaseries.com/shows/search?key=fc9ace0877d3&title=' + serieName)
+            .then((response) => {
+                    if (serieData.shows.length != 0) {
+                        const speechOutput = serieData.shows[0].seasons
+                        this.response.speak("Le nombre de saison de la série " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
+                        this.response.listen("Que puis-je faire d'autres pour vous ?")
+                        this.emit(":responseReady")
+                    } else {
+                        const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
+                        this.response.speak(negativeResponseSynopsis[responseIndex])
+                        this.response.listen(negativeResponseSynopsis[responseIndex])
+                        this.emit(':responseReady');
+                    }
                 }
-            });
 
-        })
+            ).catch((error) => {
+                const responseIndex = Math.floor(Math.random() * Math.floor(errorResponses.length));
+                this.response.speak(errorResponses[responseIndex]).listen()
+                this.emit(":responseReady")
+            })
     },
 
     'AMAZON.HelpIntent': function() {
