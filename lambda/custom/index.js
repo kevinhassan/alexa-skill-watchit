@@ -64,7 +64,9 @@ const handlers = {
     },
     'GetSynopsisFilmIntent': function() {
         // Make a request for a user with a given ID
-        const movieName = tools.clean(this.event.request.intent.slots.movie.value);
+        if (movieName) {
+            const movieName = tools.clean(this.event.request.intent.slots.movie.value);
+        }
         this.attributes.film = movieName
         const negativeResponseSynopsis = [
             'Désolé je ne parviens pas à retrouver le résumé du film ' + movieName,
@@ -108,6 +110,8 @@ const handlers = {
 
         axios.get('https://api.betaseries.com/shows/search?key=fc9ace0877d3&title=' + serieName)
             .then((response) => {
+                serieData = response.data
+
                 if (serieData.shows.length != 0) {
                     const speechOutput = serieData.shows[0].description
                     this.response.speak("Le résumé de " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
@@ -136,6 +140,39 @@ const handlers = {
         ];
 
         axios.get('https://api.betaseries.com/shows/search?key=fc9ace0877d3&title=' + serieName)
+            .then((response) => {
+                    serieData = response.data
+
+                    if (serieData.shows.length != 0) {
+                        const speechOutput = serieData.shows[0].seasons
+                        this.response.speak("Le nombre de saison de la série " + serieName + " est : " + speechOutput + ".\n Que puis-je faire d'autres pour vous ?")
+                        this.response.listen("Que puis-je faire d'autres pour vous ?")
+                        this.emit(":responseReady")
+                    } else {
+                        const responseIndex = Math.floor(Math.random() * Math.floor(negativeResponseSynopsis.length));
+                        this.response.speak(negativeResponseSynopsis[responseIndex])
+                        this.response.listen(negativeResponseSynopsis[responseIndex])
+                        this.emit(':responseReady');
+                    }
+                }
+
+            ).catch((error) => {
+                const responseIndex = Math.floor(Math.random() * Math.floor(errorResponses.length));
+                this.response.speak(errorResponses[responseIndex]).listen()
+                this.emit(":responseReady")
+            })
+    },
+
+    'GetRealisatorFilmIntent': function() {
+        // Make a request for a user with a given ID
+        const movieName = tools.clean(this.event.request.intent.slots.movie.value);
+        const negativeResponseSynopsis = [
+            'Désolé je ne parviens pas à retrouver le réalisateur du film ' + movieName,
+            'Je n\'ai pas pu trouver le réalisateur du film que vous avez demandé',
+            'Oups je n\ai pas trouver le réalisateur du film ' + movieName
+        ];
+
+        axios.get('https://api.betaseries.com/movies/search?key=fc9ace0877d3&title=' + movieName)
             .then((response) => {
                     if (serieData.shows.length != 0) {
                         const speechOutput = serieData.shows[0].seasons
