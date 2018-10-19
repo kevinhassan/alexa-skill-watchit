@@ -137,19 +137,76 @@ const handlers = {
 
     },
 
-    'AMAZON.HelpIntent': function() {
-        const speechOutput = HELP_MESSAGE
-        const reprompt = HELP_REPROMPT
+    'GetNumberSeasonIntent': function() {
+        const title = this.event.request.intent.slots.title.value
+        this.attributes.choice = 'série'
+        const vm = this
+        axios.get(Helpers.linkHelper(this.attributes.choice, title))
+            .then(function(response) {
+                if (response.data) {
+                    const nbSeason = response.data.shows[0].seasons
+                        // TODO: ne pas lire tout le résumé d'un coup
+                    var speechOutput = 'La série ' + title + ' a ' + nbSeason
+                    speechOutput += (nbSeason === 1) ? ' saison' : ' saisons'
+                    vm.response.speak(speechOutput).listen()
+                    return vm.emit(':responseReady')
+                } else {
+                    return vm.emit(':ask', "Je n'ai pas trouvé le nombre de saison de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre de saison ?')
+                }
+            })
+            .catch(function(err) {
+                console.error(err)
+                    // TODO: utiliser un error handler de alexa ?
+                return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+            })
+    },
+    'GetNumberEpisodesIntent': function() {
+        const title = this.event.request.intent.slots.title.value
+        this.attributes.choice = 'série'
+        const vm = this
+        axios.get(Helpers.linkHelper(this.attributes.choice, title))
+            .then(function(response) {
+                if (response.data) {
+                    if (vm.event.request.intent.slots.numberSeason && vm.event.request.intent.slots.numberSeason.value) {
+                        const nbSeason = vm.event.request.intent.slots.numberSeason.value
+                        if (response.data.shows[0]) {
+                            if (response.data.shows[0].seasons_details[nbSeason - 1] && response.data.shows[0].seasons_details[nbSeason - 1].episodes) {
+                                const nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
+                                vm.response.speak('La série ' + title + ' saison ' + nbSeason + ' a ' + nbEpisode + ' épisodes.').listen()
+                                return vm.emit(':responseReady')
+                            } else {
+                                vm.response.speak('La série ' + title + ' n\'a pas de saison ' + nbSeason).listen()
+                                return vm.emit(':responseReady')
+                            }
+                        } else {
+                            vm.response.speak('Aucune information concernant la série ' + title + '.').listen()
+                            return vm.emit(':responseReady')
+                        }
+                    } else {
+                        const nbEpisode = response.data.shows[0].episodes
+                        vm.response.speak('La série ' + title + ' a ' + nbEpisode + ' épisodes.').listen()
+                        return vm.emit(':responseReady')
+                    }
+                } else {
+                    return vm.emit(':ask', "Je n'ai pas trouvé le nombre d'épisode de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre d\'épisode ?')
+                }
+            })
+            .catch(function(err) {
+                console.error(err)
+                return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+            })
+    },
 
-        this.response.speak(speechOutput).listen(reprompt)
+    'AMAZON.HelpIntent': function() {
+        this.response.speak('aide').listen('re aide')
         this.emit(':responseReady')
     },
     'AMAZON.CancelIntent': function() {
-        this.response.speak(STOP_MESSAGE)
+        this.response.speak('annuler')
         this.emit(':responseReady')
     },
     'AMAZON.StopIntent': function() {
-        this.response.speak(STOP_MESSAGE)
+        this.response.speak('stop')
         this.emit(':responseReady')
     }
 }
