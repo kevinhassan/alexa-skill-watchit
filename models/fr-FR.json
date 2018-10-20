@@ -25,6 +25,10 @@
                     }],
                     "samples": [
                         "Année de {title}",
+                        "Année de création{title}",
+                        "Quel est l'année de {title}",
+                        "Quel est l'année de création de {title}",
+                        "En quel année a été créé {title}",
                         "L'année de creation de {title}"
                     ]
                 },

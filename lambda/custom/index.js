@@ -113,7 +113,13 @@ const handlers = {
         .then(function (response) {
           // TODO: renvoyer les 3 premiers résultats
           const year = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
-          vm.response.speak("L'année de création de " + vm.attributes.title + ' est ' + year + '.Quels autres informations voulez vous obtenir ?').listen()
+          vm.response.speak("L'année de création de " + title + ' est ' + year + '.').listen('Quels autres informations voulez vous obtenir ?')
+          return vm.emit(':responseReady')
+        })
+        .catch(function () {
+          var speechOutput = "Je n'ai pas trouvé l'année de création "
+          speechOutput += (vm.attributes.choice === 'film') ? 'du film ' : 'de la série '
+          vm.response.speak(speechOutput).listen()
           return vm.emit(':responseReady')
         })
     } else {
