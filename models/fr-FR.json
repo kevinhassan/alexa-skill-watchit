@@ -30,7 +30,7 @@
                     }],
                     "samples": [
                         "Année de {oeuvre}",
-                        "L'année de creation de {oeauvre}"
+                        "L'année de creation de {oeuvre}"
                     ]
                 },
                 {
@@ -65,16 +65,14 @@
                 },
                 {
                     "name": "GetNumberSeasonIntent",
-                    "slots": [
-                        {
-                            "name": "title",
-                            "type": "AMAZON.Movie"
-                        }
-                    ],
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
                     "samples": [
                         "Quel est la dernière saison de {title}",
                         "Quel est la dernière saison de la série {title}",
-                        "Combien de saison a la série{title} ",
+                        "Combien de saison a la série {title} ",
                         "Combien de saison a {title} ",
                         "Trouve moi le nombre de saison de {title}",
                         "Trouve moi le nombre de saison de la série {title}"
@@ -82,8 +80,7 @@
                 },
                 {
                     "name": "GetNumberEpisodesIntent",
-                    "slots": [
-                        {
+                    "slots": [{
                             "name": "title",
                             "type": "AMAZON.Movie"
                         },
