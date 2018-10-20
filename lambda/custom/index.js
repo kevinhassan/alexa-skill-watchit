@@ -61,24 +61,20 @@ const handlers = {
                         const synopsis = (vm.attributes.choice === 'film') ? response.data.movies[0].synopsis : response.data.shows[0].description
                         vm.attributes.title = title
                             // TODO: ne pas lire tout le résumé d'un coup
-                        const responseAnneeIndex = Math.floor(Math.random() * Math.floor(anneeUtterance.length));
-
                         vm.response.speak(synopsis +
                             "Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
-                            anneeUtterance[responseAnneeIndex]).listen()
+                            Helpers.responseHelper(anneeUtterance)).listen()
 
                         return vm.emit(':responseReady')
                     } else {
-                        const responseIndex = Math.floor(Math.random() * Math.floor(resumeNotExist.length));
-                        vm.response.speak(resumeNotExist[responseIndex])
-                        return vm.emit(':ask', resumeNotExist[responseIndex] + title, 'De quel ' + vm.attributes.choice + ' voulez-vous obtenir le résumé ?')
+                        vm.response.speak(Helpers.responseHelper(resumeNotExist))
+                        return vm.emit(':ask', Helpers.responseHelper(resumeNotExist) + title, 'De quel ' + vm.attributes.choice + ' voulez-vous obtenir le résumé ?')
                     }
                 })
                 .catch(function(err) {
                     console.error(err)
-                    const responseIndex = Math.floor(Math.random() * Math.floor(errorResponses.length));
                     // TODO: utiliser un error handler de alexa ?
-                    return vm.emit(':ask', errorResponses[responseIndex])
+                    return vm.emit(':ask', Helpers.responseHelper(errorResponses))
                 })
         } else {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
@@ -94,11 +90,10 @@ const handlers = {
                         // TODO: renvoyer les 3 premiers résultats
                         const annee = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
                             // TODO: ne pas lire tout le résumé d'un coup
-                        const responseSynopsisIndex = Math.floor(Math.random() * Math.floor(SynopsisUtterance.length));
 
                         vm.response.speak("L'année de création de " + vm.attributes.title + " est " + annee +
                             " Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
-                            SynopsisUtterance[responseSynopsisIndex]).listen()
+                            Helpers.responseHelper(SynopsisUtterance)).listen()
 
                         return vm.emit(':responseReady')
                     })
@@ -121,11 +116,9 @@ const handlers = {
                     // TODO: renvoyer les 3 premiers résultats
                     const annee = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
                         // TODO: ne pas lire tout le résumé d'un coup
-                    const responseSynopsisIndex = Math.floor(Math.random() * Math.floor(SynopsisUtterance.length));
-
                     vm.response.speak("L'année de création de " + vm.attributes.title + " est " + annee +
                         " Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
-                        SynopsisUtterance[responseSynopsisIndex]).listen()
+                        Helpers.responseHelper(SynopsisUtterance)).listen()
 
                     return vm.emit(':responseReady')
                 })
