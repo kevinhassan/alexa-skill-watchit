@@ -23,7 +23,7 @@ const resumeNotExist = [
     "Oups je n'ai pas réussi à trouver le résumé de "
 ]
 
-const anneeUtterance = [
+const yearUtterance = [
     "Année",
     "Année de l'oeuvre"
 ]
@@ -54,16 +54,16 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         const vm = this
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, title))
+            axios.get(Helpers.linkHelper(this.attributes.choice, {"title": title}))
                 .then(function(response) {
-                    if (response.data && response.data.movies.length != 0) {
+                    if (response.data && (response.data.movies||response.data.shows) && (response.data.movies.length != 0||response.data.shows.length != 0)) {
                         // TODO: renvoyer les 3 premiers résultats
                         const synopsis = (vm.attributes.choice === 'film') ? response.data.movies[0].synopsis : response.data.shows[0].description
                         vm.attributes.title = title
                             // TODO: ne pas lire tout le résumé d'un coup
                         vm.response.speak(synopsis +
                             "Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
-                            Helpers.responseHelper(anneeUtterance)).listen()
+                            Helpers.responseHelper(yearUtterance)).listen()
 
                         return vm.emit(':responseReady')
                     } else {
@@ -80,17 +80,15 @@ const handlers = {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
         }
     },
-    'GetAnneeWithFixTitleIntent': function() {
+    /*'GetAnneeWithFixTitleIntent': function() {
         const vm = this
         if (this.attributes && this.attributes.choice) {
             if (this.attributes && this.attributes.title) {
                 const title = vm.attributes.title
-                axios.get(Helpers.linkHelper(this.attributes.choice, title))
+                axios.get(Helpers.linkHelper(this.attributes.choice, {"title": title}))
                     .then(function(response) {
                         // TODO: renvoyer les 3 premiers résultats
                         const annee = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
-                            // TODO: ne pas lire tout le résumé d'un coup
-
                         vm.response.speak("L'année de création de " + vm.attributes.title + " est " + annee +
                             " Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
                             Helpers.responseHelper(SynopsisUtterance)).listen()
@@ -106,37 +104,30 @@ const handlers = {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
 
         }
-    },
-    'GetAnneeWithTitleIntent': function() {
+    },*/
+    'GetYearIntent': function() {
         const vm = this
         const title = this.event.request.intent.slots.title.value
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, title))
+            axios.get(Helpers.linkHelper(this.attributes.choice, {"title": title}))
                 .then(function(response) {
                     // TODO: renvoyer les 3 premiers résultats
-                    const annee = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
-                        // TODO: ne pas lire tout le résumé d'un coup
-                    vm.response.speak("L'année de création de " + vm.attributes.title + " est " + annee +
-                        " Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
-                        Helpers.responseHelper(SynopsisUtterance)).listen()
-
+                    const year = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
+                    vm.response.speak("L'année de création de " + vm.attributes.title + " est " + year + ".Quels autres informations voulez vous obtenir ?").listen()
                     return vm.emit(':responseReady')
                 })
         } else {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
-
         }
-
-
     },
 
     'GetNumberSeasonIntent': function() {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'série'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, title))
+        axios.get(Helpers.linkHelper(this.attributes.choice, {"title": title}))
             .then(function(response) {
-                if (response.data) {
+                if (response.data && response.data.shows && response.data.shows.length != 0) {
                     const nbSeason = response.data.shows[0].seasons
                         // TODO: ne pas lire tout le résumé d'un coup
                     var speechOutput = 'La série ' + title + ' a ' + nbSeason
@@ -157,16 +148,17 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'série'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, title))
+        axios.get(Helpers.linkHelper(this.attributes.choice, {"title": title}))
             .then(function(response) {
-                if (response.data) {
+                if (response.data && response.data.shows && response.data.shows.length != 0) {                        
+                    var speechOutput = 'La série ' + title
+                    var nbEpisode = -1
                     if (vm.event.request.intent.slots.numberSeason && vm.event.request.intent.slots.numberSeason.value) {
-                        const nbSeason = vm.event.request.intent.slots.numberSeason.value
+                        const nbSeason = vm.event.request.intent.slots.numberSeason.value                            
                         if (response.data.shows[0]) {
                             if (response.data.shows[0].seasons_details[nbSeason - 1] && response.data.shows[0].seasons_details[nbSeason - 1].episodes) {
-                                const nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
-                                vm.response.speak('La série ' + title + ' saison ' + nbSeason + ' a ' + nbEpisode + ' épisodes.').listen()
-                                return vm.emit(':responseReady')
+                                nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
+                                speechOutput +=  ' saison ' + nbSeason
                             } else {
                                 vm.response.speak('La série ' + title + ' n\'a pas de saison ' + nbSeason).listen()
                                 return vm.emit(':responseReady')
@@ -176,10 +168,12 @@ const handlers = {
                             return vm.emit(':responseReady')
                         }
                     } else {
-                        const nbEpisode = response.data.shows[0].episodes
-                        vm.response.speak('La série ' + title + ' a ' + nbEpisode + ' épisodes.').listen()
-                        return vm.emit(':responseReady')
+                        nbEpisode = response.data.shows[0].episodes
                     }
+                    speechOutput += "a "+ nbEpisode
+                    speechOutput += (nbEpisode === 1) ? ' épisode.' : ' épisodes.'
+                    vm.response.speak(speechOutput).listen()
+                    return vm.emit(':responseReady')
                 } else {
                     return vm.emit(':ask', "Je n'ai pas trouvé le nombre d'épisode de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre d\'épisode ?')
                 }

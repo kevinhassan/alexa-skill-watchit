@@ -10,27 +10,22 @@
                     }],
                     "samples": [
                         "Trouve moi le résumé de {title}",
+                        "Trouve moi le résumé du {title}",
                         "Quel est le résumé de {title}",
                         "Donne moi le résumé de {title}",
-                        "Résumé de {title}"
+                        "Résumé de {title}",
+                        "Résumé du {title}"
                     ]
                 },
                 {
-                    "name": "GetAnneeWithFixTitleIntent",
-                    "samples": [
-                        "Année",
-                        "Année de l'oeuvre"
-                    ]
-                },
-                {
-                    "name": "GetAnneeTitleIntent",
+                    "name": "GetYearIntent",
                     "slots": [{
-                        "name": "oeuvre",
+                        "name": "title",
                         "type": "AMAZON.Movie"
                     }],
                     "samples": [
-                        "Année de {oeuvre}",
-                        "L'année de creation de {oeauvre}"
+                        "Année de {title}",
+                        "L'année de creation de {title}"
                     ]
                 },
                 {
@@ -74,7 +69,7 @@
                     "samples": [
                         "Quel est la dernière saison de {title}",
                         "Quel est la dernière saison de la série {title}",
-                        "Combien de saison a la série{title} ",
+                        "Combien de saison a la série {title} ",
                         "Combien de saison a {title} ",
                         "Trouve moi le nombre de saison de {title}",
                         "Trouve moi le nombre de saison de la série {title}"
