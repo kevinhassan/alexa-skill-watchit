@@ -91,7 +91,12 @@
                         "Combien d'épisode a la saison {numberSeason} de {title}",
                         "Combien d'épisode a la saison {numberSeason} de la série {title}",
                         "Combien d'épisode a {title}",
-                        "Combien d'épisode a la série {title}"
+                        "Combien d'épisode a la série {title}",
+                        "Combien il y a t-il d'épisode a la série {title}",
+                        "Combien il y a t-il d'épisode sur {title}",
+                        "Combien il y a t-il d'épisode sur la série {title}",
+                        "Combien il y a t-il d'épisode a la saison {numberSeason} de {title}",
+                        "Combien il y a t-il d'épisode sur la saison {numberSeason} de {title}"
                     ]
                 }
             ],
