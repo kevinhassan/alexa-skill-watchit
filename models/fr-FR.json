@@ -18,6 +18,19 @@
                     ]
                 },
                 {
+                    "name": "GetLengthIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Donne moi la durée de {title}",
+                        "Quel est la durée de {title}",
+                        "Durée de {title}",
+                        "Durée du {title}"
+                    ]
+                },
+                {
                     "name": "GetYearIntent",
                     "slots": [{
                         "name": "title",
@@ -25,7 +38,7 @@
                     }],
                     "samples": [
                         "Année de {title}",
-                        "Année de création{title}",
+                        "Année de création {title}",
                         "Quel est l'année de {title}",
                         "Quel est l'année de création de {title}",
                         "En quel année a été créé {title}",

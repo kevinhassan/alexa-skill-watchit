@@ -2,6 +2,7 @@
 const Alexa = require('alexa-sdk')
 const axios = require('axios')
 const Helpers = require('./helpers')
+const Utils = require('./utils')
 
 const randomQuestionsAfterSynopsis = [
   "Que puis-je faire d'autres pour vous ? Je peux aussi vous donner le résumé d'une série ",
@@ -57,11 +58,9 @@ const handlers = {
     if (this.attributes && this.attributes.choice) {
       axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
         .then(function (response) {
-          if (response.data && ((response.data.movies && response.data.movies.length !== 0) || (response.data.shows && response.data.shows.length !== 0))) {
-            // TODO: renvoyer les 3 premiers résultats
+          if (Utils.request.movieExist || Utils.request.serieExist) {
             const synopsis = (vm.attributes.choice === 'film') ? response.data.movies[0].synopsis : response.data.shows[0].description
             vm.attributes.title = title
-            // TODO: ne pas lire tout le résumé d'un coup
             vm.response.speak(synopsis +
                             'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                             Helpers.responseHelper(yearUtterance)).listen()
@@ -74,49 +73,24 @@ const handlers = {
         })
         .catch(function (err) {
           console.error(err)
-          // TODO: utiliser un error handler de alexa ?
           return vm.emit(':ask', Helpers.responseHelper(errorResponses))
         })
     } else {
       return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
     }
   },
-  /* 'GetAnneeWithFixTitleIntent': function() {
-        const vm = this
-        if (this.attributes && this.attributes.choice) {
-            if (this.attributes && this.attributes.title) {
-                const title = vm.attributes.title
-                axios.get(Helpers.linkHelper(this.attributes.choice, {"title": title}))
-                    .then(function(response) {
-                        // TODO: renvoyer les 3 premiers résultats
-                        const annee = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
-                        vm.response.speak("L'année de création de " + vm.attributes.title + " est " + annee +
-                            " Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : " +
-                            Helpers.responseHelper(SynopsisUtterance)).listen()
-
-                        return vm.emit(':responseReady')
-                    })
-
-            } else {
-                vm.response.speak("Veuillez répéter la phrase et préciser un nom de " + vm.attributes.choice)
-            }
-        } else {
-            return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
-
-        }
-    }, */
   'GetYearIntent': function () {
     const vm = this
     const title = this.event.request.intent.slots.title.value
     if (this.attributes && this.attributes.choice) {
       axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
         .then(function (response) {
-          // TODO: renvoyer les 3 premiers résultats
           const year = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
           vm.response.speak("L'année de création de " + title + ' est ' + year + '.').listen('Quels autres informations voulez vous obtenir ?')
           return vm.emit(':responseReady')
         })
-        .catch(function () {
+        .catch(function (err) {
+          console.error(err)
           var speechOutput = "Je n'ai pas trouvé l'année de création "
           speechOutput += (vm.attributes.choice === 'film') ? 'du film ' : 'de la série '
           vm.response.speak(speechOutput).listen()
@@ -133,9 +107,8 @@ const handlers = {
     const vm = this
     axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
       .then(function (response) {
-        if (response.data && response.data.shows && response.data.shows.length !== 0) {
+        if (Utils.request.serieChecker(response)) {
           const nbSeason = response.data.shows[0].seasons
-          // TODO: ne pas lire tout le résumé d'un coup
           var speechOutput = 'La série ' + title + ' a ' + nbSeason
           speechOutput += (nbSeason === 1) ? ' saison' : ' saisons'
           vm.response.speak(speechOutput).listen()
@@ -146,7 +119,6 @@ const handlers = {
       })
       .catch(function (err) {
         console.error(err)
-        // TODO: utiliser un error handler de alexa ?
         return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
       })
   },
@@ -156,7 +128,7 @@ const handlers = {
     const vm = this
     axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
       .then(function (response) {
-        if (response.data && response.data.shows && response.data.shows.length !== 0) {
+        if (Utils.request.serieExist(response)) {
           var speechOutput = 'La série ' + title
           var nbEpisode = -1
           if (vm.event.request.intent.slots.numberSeason && vm.event.request.intent.slots.numberSeason.value) {
@@ -189,7 +161,28 @@ const handlers = {
         return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
       })
   },
-
+  'GetLengthIntent': function () {
+    const title = this.event.request.intent.slots.title.value
+    const vm = this
+    if (this.attributes && this.attributes.choice) {
+      axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        .then(function (response) {
+          if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
+            const length = (vm.attributes.choice === 'film') ? Utils.time('film', response.data.movies[0].length) : Utils.time('série', response.data.shows[0].length)
+            vm.response.speak('La durée de ' + title + ' est de : ' + length).listen()
+            return vm.emit(':responseReady')
+          } else {
+            vm.response.speak('Aucune information concernant la durée de ' + title + '.').listen()
+            return vm.emit(':responseReady')
+          }
+        }).catch(function (err) {
+          console.error(err)
+          return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+        })
+    } else {
+      return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+    }
+  },
   'AMAZON.HelpIntent': function () {
     this.response.speak('aide').listen('re aide')
     this.emit(':responseReady')
