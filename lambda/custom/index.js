@@ -424,7 +424,7 @@ const handlers = {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
                         var speechOutput = 'Les acteurs de ' + title + 'sont : '
-                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'id': id }, 'characters'))
+                        axios.get(Helpers.linkHelper(vm.attributes.choice, { 'id': id }, 'characters'))
                             .then(function(response2) {
                                 if (response2.similars.length > 5) {
                                     const firstFives = response2.characters.splice(5, response2.characters.length - 5)
@@ -465,23 +465,22 @@ const handlers = {
                 .then(function(response) {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
-                        const type = (choice === 'film') ? 'movies' : 'shows'
-                        var speechOutput = 'Les ' + choice + 'similaires à ' + title + " sont : "
-                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'id': id }, 'similars'))
+                        var speechOutput = 'Les ' + vm.attributes.choice + 'similaires à ' + title + " sont : "
+                        axios.get(Helpers.linkHelper(vm.attributes.choice, { 'id': id }, 'similars'))
                             .then(function(response2) {
                                 if (response2.similars.length > 0) {
                                     if (response2.similars.length > 5) {
                                         const firstFives = response2.characters.splice(5, response2.characters.length - 5)
                                         firstFives.forEach(function(item, index, array) {
-                                            speechOutput += '<break time="1s"/>' (choice === 'film') ? item.movie_title : item.show_title
+                                            speechOutput += '<break time="1s"/>' (vm.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
                                     } else {
                                         firstFives.forEach(function(item, index, array) {
-                                            speechOutput += '<break time="1s"/>' (choice === 'film') ? item.movie_title : item.show_title
+                                            speechOutput += '<break time="1s"/>' (vm.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
                                     }
                                 } else {
-                                    speechOutput = 'Aucun ' + choice + 'similaires à ' + title + "n'existe"
+                                    speechOutput = 'Aucun ' + vm.attributes.choice + 'similaires à ' + title + "n'existe"
                                 }
 
                                 vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +

@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "watchit",
+            "invocationName": "watch it",
             "intents": [{
                     "name": "GetSynopsisIntent",
                     "slots": [{
@@ -10,11 +10,9 @@
                     }],
                     "samples": [
                         "Trouve moi le résumé de {title}",
-                        "Trouve moi le résumé du {title}",
                         "Quel est le résumé de {title}",
                         "Donne moi le résumé de {title}",
-                        "Résumé de {title}",
-                        "Résumé du {title}"
+                        "Résumé de {title}"
                     ]
                 },
                 {
@@ -26,8 +24,7 @@
                     "samples": [
                         "Donne moi la durée de {title}",
                         "Quel est la durée de {title}",
-                        "Durée de {title}",
-                        "Durée du {title}"
+                        "Durée de {title}"
                     ]
                 },
                 {
@@ -38,13 +35,9 @@
                     }],
                     "samples": [
                         "Donne moi le genre de {title}",
-                        "Donne moi le genre du {title}",
                         "Quel est le genre de {title}",
                         "Quel sont les genres de {title}",
-                        "Quel sont les genres du {title}",
-                        "Quel est le genre du {title}",
                         "Genre de {title}",
-                        "Genre du {title}"
                     ]
                 },
                 {
@@ -139,11 +132,8 @@
                     "samples": [
                         "Dernier épisode de la série {title}",
                         "Donne moi le dernier épisode de la série {title}",
-                        "Donne moi le dernier épisode du {title}",
                         "Donne moi le dernier épisode de {title}",
-                        "Dernier épisode du {title}",
                         "Dernier épisode de {title}",
-                        "Quel est le dernier épisode du {title}",
                         "Quel est le dernier épisode de {title}"
                     ]
                 },
@@ -156,10 +146,7 @@
                     "samples": [
                         "Qui a réalisé le film {title}",
                         "Qui a réalisé {title}",
-                        "Réalisateur du {title}",
                         "Réalisateur de {title}",
-                        "Qui est le réalisateur du {title}",
-                        "Qui est le réalisateur du film {title}",
                         "Qui est le réalisateur de {title}"
                     ]
                 },
@@ -170,12 +157,9 @@
                         "type": "AMAZON.Movie"
                     }],
                     "samples": [
-                        "Quelle est la note moyenne du {title}",
-                        "Note moyenne du {title} ",
+                        "Quelle est la note moyenne de {title}",
                         "Note moyenne de {title} ",
                         "Quelle est la note moyenne de {title} ",
-                        "Quelle est la note du {title}",
-                        "Note du {title}",
                         "Note de {title} ",
                         "Quelle est la note de {title}"
                     ]
@@ -205,6 +189,19 @@
                         "Quels sont les personnages de {title}",
                         "Les personnages de {title}",
                         "Qui joue dans {title}"
+                    ]
+                },
+                {
+                    "name": "GetSimilarsIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Quels sont les oeuvres similaires à {title}",
+                        "Similaires à {title}",
+                        "Donne moi les oeuvre pareille que {title}",
+                        "Pareille que {title}"
                     ]
                 }
             ],
