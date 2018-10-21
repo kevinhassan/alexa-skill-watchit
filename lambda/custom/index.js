@@ -6,11 +6,9 @@ const Utils = require('./utils')
 
 const SynopsisUtterance = [
     "Trouve moi le résumé de Arrow",
-    "Trouve moi le résumé du Arrow",
     "Quel est le résumé de Arrow",
     "Donne moi le résumé de Arrow",
-    "Résumé de Arrow",
-    "Résumé du Arrow"
+    "Résumé de Arrow"
 ]
 
 const resumeNotExist = [
@@ -31,19 +29,14 @@ const yearUtterance = [
 const lengthUtterrance = [
     "Donne moi la durée de Flash",
     "Quel est la durée de Flash",
-    "Durée de Flash",
-    "Durée du Flash"
+    "Durée de Flash"
 ]
 
 const genreUtterance = [
     "Donne moi le genre de Flash",
-    "Donne moi le genre du Flash",
     "Quel est le genre de Flash",
     "Quel sont les genres de Flash",
-    "Quel sont les genres du Flash",
-    "Quel est le genre du Flash",
-    "Genre de Flash",
-    "Genre du Flash"
+    "Genre de Flash"
 ]
 
 const numberSeasonUtterance = [
@@ -70,31 +63,21 @@ const numberEpisodesUtterance = [
 const dernierEpisodeUtterance = [
     "Dernier épisode de la série Flash",
     "Donne moi le dernier épisode de la série Flash",
-    "Donne moi le dernier épisode du Flash",
     "Donne moi le dernier épisode de Flash",
-    "Dernier épisode du Flash",
     "Dernier épisode de Flash",
-    "Quel est le dernier épisode du Flash",
     "Quel est le dernier épisode de Flash"
 ]
 
 const directorMovieUtterance = [
     "Qui a réalisé le film Flash",
     "Qui a réalisé Flash",
-    "Réalisateur du Flash",
     "Réalisateur de Flash",
-    "Qui est le réalisateur du Flash",
-    "Qui est le réalisateur du film Flash",
     "Qui est le réalisateur de Flash"
 ]
 
 const markUtterance = [
-    "Quelle est la note moyenne du Flash",
-    "Note moyenne du Flash ",
     "Note moyenne de Flash ",
     "Quelle est la note moyenne de Flash ",
-    "Quelle est la note du Flash",
-    "Note du Flash",
     "Note de Flash ",
     "Quelle est la note de Flash"
 ]
@@ -440,14 +423,19 @@ const handlers = {
                 .then(function(response) {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
-                        const type = (choice === 'film') ? 'movies' : 'shows'
-                        var speechOutput = ''
-                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'characters'))
+                        var speechOutput = 'Les acteurs de ' + title + 'sont : '
+                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'id': id }, 'characters'))
                             .then(function(response2) {
-                                const firstFives = response2.characters.splice(5, response2.characters.length - 5)
-                                firstFives.forEach(function(item, index, array) {
-                                    speechOutput += item.actor + " dans le role de : " + item.name + '<break time="1s"/>'
-                                })
+                                if (response2.similars.length > 5) {
+                                    const firstFives = response2.characters.splice(5, response2.characters.length - 5)
+                                    firstFives.forEach(function(item, index, array) {
+                                        speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
+                                    })
+                                } else {
+                                    firstFives.forEach(function(item, index, array) {
+                                        speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
+                                    })
+                                }
                                 vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                                     Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                                 ).listen()
@@ -478,13 +466,24 @@ const handlers = {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
                         const type = (choice === 'film') ? 'movies' : 'shows'
-                        var speechOutput = ''
-                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'similars'))
+                        var speechOutput = 'Les ' + choice + 'similaires à ' + title + " sont : "
+                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'id': id }, 'similars'))
                             .then(function(response2) {
-                                const firstFives = response2.characters.splice(5, response2.characters.length - 5)
-                                firstFives.forEach(function(item, index, array) {
-                                    speechOutput += item.actor + " dans le role de : " + item.name + '<break time="1s"/>'
-                                })
+                                if (response2.similars.length > 0) {
+                                    if (response2.similars.length > 5) {
+                                        const firstFives = response2.characters.splice(5, response2.characters.length - 5)
+                                        firstFives.forEach(function(item, index, array) {
+                                            speechOutput += '<break time="1s"/>' (choice === 'film') ? item.movie_title : item.show_title
+                                        })
+                                    } else {
+                                        firstFives.forEach(function(item, index, array) {
+                                            speechOutput += '<break time="1s"/>' (choice === 'film') ? item.movie_title : item.show_title
+                                        })
+                                    }
+                                } else {
+                                    speechOutput = 'Aucun ' + choice + 'similaires à ' + title + "n'existe"
+                                }
+
                                 vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                                     Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                                 ).listen()
