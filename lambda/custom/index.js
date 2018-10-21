@@ -55,15 +55,6 @@ const numberSeasonUtterance = [
     "Trouve moi le nombre de saison de la série {nom de l'oeuvre}"
 ]
 
-const numberSeasonUtterance = [
-    "Quel est la dernière saison de {nom de l'oeuvre}",
-    "Quel est la dernière saison de la série {nom de l'oeuvre}",
-    "Combien de saison a la série {nom de l'oeuvre} ",
-    "Combien de saison a {nom de l'oeuvre} ",
-    "Trouve moi le nombre de saison de {nom de l'oeuvre}",
-    "Trouve moi le nombre de saison de la série {nom de l'oeuvre}"
-]
-
 const numberEpisodesUtterance = [
     "Combien d'épisode a la saison {numéro de la saison} de {nom de l'oeuvre}",
     "Combien d'épisode a la saison {numéro de la saison} de la série {nom de l'oeuvre}",
@@ -433,6 +424,28 @@ const handlers = {
                 })
         } else {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+        }
+    },
+    'GetCharactersIntent': function() {
+        const title = this.event.request.intent.slots.title.value
+        const vm = this
+        if (this.attributes && this.attributes.choice) {
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+                .then(function(response) {
+                    if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
+                        const genres = (vm.attributes.choice === 'film') ? response.data.movies[0].genres : response.data.shows[0].genres
+                        const speechOutput = title + ' a pour genre : ' + genres.join(', ')
+                        vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                            Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
+                        ).listen()
+                        return vm.emit(':responseReady')
+                    } else {
+                        return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+                    }
+                })
+        } else {
+            return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+
         }
     },
     'AMAZON.HelpIntent': function() {
