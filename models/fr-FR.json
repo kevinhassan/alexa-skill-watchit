@@ -10,27 +10,56 @@
                     }],
                     "samples": [
                         "Trouve moi le résumé de {title}",
+                        "Trouve moi le résumé du {title}",
                         "Quel est le résumé de {title}",
                         "Donne moi le résumé de {title}",
-                        "Résumé de {title}"
+                        "Résumé de {title}",
+                        "Résumé du {title}"
                     ]
                 },
                 {
-                    "name": "GetAnneeWithFixTitleIntent",
-                    "samples": [
-                        "Année",
-                        "Année de l'oeuvre"
-                    ]
-                },
-                {
-                    "name": "GetAnneeTitleIntent",
+                    "name": "GetLengthIntent",
                     "slots": [{
-                        "name": "oeuvre",
+                        "name": "title",
                         "type": "AMAZON.Movie"
                     }],
                     "samples": [
-                        "Année de {oeuvre}",
-                        "L'année de creation de {oeuvre}"
+                        "Donne moi la durée de {title}",
+                        "Quel est la durée de {title}",
+                        "Durée de {title}",
+                        "Durée du {title}"
+                    ]
+                },
+                {
+                    "name": "GetGenreIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Donne moi le genre de {title}",
+                        "Donne moi le genre du {title}",
+                        "Quel est le genre de {title}",
+                        "Quel sont les genres de {title}",
+                        "Quel sont les genres du {title}",
+                        "Quel est le genre du {title}",
+                        "Genre de {title}",
+                        "Genre du {title}"
+                    ]
+                },
+                {
+                    "name": "GetYearIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Année de {title}",
+                        "Année de création {title}",
+                        "Quel est l'année de {title}",
+                        "Quel est l'année de création de {title}",
+                        "En quel année a été créé {title}",
+                        "L'année de creation de {title}"
                     ]
                 },
                 {
@@ -93,7 +122,77 @@
                         "Combien d'épisode a la saison {numberSeason} de {title}",
                         "Combien d'épisode a la saison {numberSeason} de la série {title}",
                         "Combien d'épisode a {title}",
-                        "Combien d'épisode a la série {title}"
+                        "Combien d'épisode a la série {title}",
+                        "Combien il y a t-il d'épisode a la série {title}",
+                        "Combien il y a t-il d'épisode sur {title}",
+                        "Combien il y a t-il d'épisode sur la série {title}",
+                        "Combien il y a t-il d'épisode a la saison {numberSeason} de {title}",
+                        "Combien il y a t-il d'épisode sur la saison {numberSeason} de {title}"
+                    ]
+                },
+                {
+                    "name": "GetLastEpisodeIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Dernier épisode de la série {title}",
+                        "Donne moi le dernier épisode de la série {title}",
+                        "Donne moi le dernier épisode du {title}",
+                        "Donne moi le dernier épisode de {title}",
+                        "Dernier épisode du {title}",
+                        "Dernier épisode de {title}",
+                        "Quel est le dernier épisode du {title}",
+                        "Quel est le dernier épisode de {title}"
+                    ]
+                },
+                {
+                    "name": "GetDirectorMovieIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Qui a réalisé le film {title}",
+                        "Qui a réalisé {title}",
+                        "Réalisateur du {title}",
+                        "Réalisateur de {title}",
+                        "Qui est le réalisateur du {title}",
+                        "Qui est le réalisateur du film {title}",
+                        "Qui est le réalisateur de {title}"
+                    ]
+                },
+                {
+                    "name": "GetMarkIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Quelle est la note moyenne du {title}",
+                        "Note moyenne du {title} ",
+                        "Note moyenne de {title} ",
+                        "Quelle est la note moyenne de {title} ",
+                        "Quelle est la note du {title}",
+                        "Note du {title}",
+                        "Note de {title} ",
+                        "Quelle est la note de {title}"
+                    ]
+                },
+                {
+                    "name": "GetNetworkIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Qui est le diffuseur de la série {title}",
+                        "Qui est le diffuseur de {title}",
+                        "Où puis je voir la série {title}",
+                        "Qui diffuse la série {title}",
+                        "Où puis je voir {title}",
+                        "Qui diffuse {title}"
                     ]
                 }
             ],
