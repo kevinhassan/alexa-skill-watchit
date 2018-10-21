@@ -468,7 +468,44 @@ const handlers = {
         } else {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
         }
-    }
+    },
+    'GetSimilarsIntent': function() {
+        const title = this.event.request.intent.slots.title.value
+        const vm = this
+        if (this.attributes && this.attributes.choice) {
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
+                .then(function(response) {
+                    if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
+                        const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
+                        const type = (choice === 'film') ? 'movies' : 'shows'
+                        var speechOutput = ''
+                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'similars'))
+                            .then(function(response2) {
+                                const firstFives = response2.characters.splice(5, response2.characters.length - 5)
+                                firstFives.forEach(function(item, index, array) {
+                                    speechOutput += item.actor + " dans le role de : " + item.name + '<break time="1s"/>'
+                                })
+                                vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                                    Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
+                                ).listen()
+                                return vm.emit(':responseReady')
+
+                            }).catch(function(err) {
+                                console.error(err)
+                                return vm.emit(':ask', Helpers.responseHelper(errorResponses))
+                            })
+                    } else {
+                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
+                        return vm.emit(':responseReady')
+                    }
+                }).catch(function(err) {
+                    console.error(err)
+                    return vm.emit(':ask', Helpers.responseHelper(errorResponses))
+                })
+        } else {
+            return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+        }
+    },
     'AMAZON.HelpIntent': function() {
         this.response.speak('aide').listen('re aide')
         this.emit(':responseReady')
