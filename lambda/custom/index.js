@@ -183,6 +183,28 @@ const handlers = {
       return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
     }
   },
+  'GetGenreIntent': function () {
+    const title = this.event.request.intent.slots.title.value
+    const vm = this
+    if (this.attributes && this.attributes.choice) {
+      axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        .then(function (response) {
+          if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
+            const genres = (vm.attributes.choice === 'film') ? response.data.movies[0].genres : response.data.shows[0].genres
+            vm.response.speak(title + ' a pour genre : ' + genres.join(', ')).listen()
+            return vm.emit(':responseReady')
+          } else {
+            vm.response.speak('Aucune information concernant le genre de :' + title).listen()
+            return vm.emit(':responseReady')
+          }
+        }).catch(function (err) {
+          console.error(err)
+          return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+        })
+    } else {
+      return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+    }
+  },
   'AMAZON.HelpIntent': function () {
     this.response.speak('aide').listen('re aide')
     this.emit(':responseReady')

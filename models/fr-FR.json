@@ -31,6 +31,23 @@
                     ]
                 },
                 {
+                    "name": "GetGenreIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Donne moi le genre de {title}",
+                        "Donne moi le genre du {title}",
+                        "Quel est le genre de {title}",
+                        "Quel sont les genres de {title}",
+                        "Quel sont les genres du {title}",
+                        "Quel est le genre du {title}",
+                        "Genre de {title}",
+                        "Genre du {title}"
+                    ]
+                },
+                {
                     "name": "GetYearIntent",
                     "slots": [{
                         "name": "title",
