@@ -161,6 +161,32 @@ const handlers = {
         return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
       })
   },
+  'GetDirectorMovieIntent': function () {
+    const title = this.event.request.intent.slots.title.value
+    this.attributes.choice = 'film'
+    const vm = this
+    axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+      .then(function (response) {
+        if (Utils.request.movieExist(response)) {
+          var speechOutput = 'Le film ' + title
+          if (response.data.movies[0].director) {
+            const director = response.data.movies[0].director
+            speechOutput += ' a été réalisé par : ' + director
+          } else {
+            speechOutput = 'Aucune information n`a été trouvé concernant le réalisateur du film ' + title
+          }
+          vm.response.speak(speechOutput).listen()
+          return vm.emit(':responseReady')
+        } else {
+          vm.response.speak("Je n'ai pas trouvé d'informations sur le film : " + title).listen()
+          return vm.emit(':responseReady')
+        }
+      })
+      .catch(function (err) {
+        console.error(err)
+        return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+      })
+  },
   'GetLengthIntent': function () {
     const title = this.event.request.intent.slots.title.value
     const vm = this
@@ -182,6 +208,34 @@ const handlers = {
     } else {
       return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
     }
+  },
+  'GetLastEpisodeIntent': function () {
+    const title = this.event.request.intent.slots.title.value
+    this.attributes.choice = 'série'
+    const vm = this
+    axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+      .then(function (response) {
+        if (Utils.request.serieExist(response)) {
+          var speechOutput = 'Le dernier épisode de la série ' + title
+          var nbEpisode = -1
+          if (response.data.shows[0] && response.data.shows[0].seasons_details) {
+            const nbSeason = response.data.shows[0].seasons_details.length
+            nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
+            speechOutput += ' est l\'épisode ' + nbEpisode + ' de la saison ' + nbSeason
+            vm.response.speak(speechOutput).listen()
+            return vm.emit(':responseReady')
+          } else {
+            vm.response.speak('Aucune information concernant la série ' + title + '.').listen()
+            return vm.emit(':responseReady')
+          }
+        } else {
+          return vm.emit(':ask', "Je n'ai pas trouvé le nombre d'épisode de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre d\'épisode ?')
+        }
+      })
+      .catch(function (err) {
+        console.error(err)
+        return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+      })
   },
   'GetGenreIntent': function () {
     const title = this.event.request.intent.slots.title.value

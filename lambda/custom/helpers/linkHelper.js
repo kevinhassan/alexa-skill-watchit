@@ -4,5 +4,5 @@ module.exports = function buildApiLink (choice, params) {
   Object.keys(params).map(function (key) {
     apiUrl += '&' + key + '=' + params[key]
   })
-  return apiUrl
+  return encodeURI(apiUrl)
 }

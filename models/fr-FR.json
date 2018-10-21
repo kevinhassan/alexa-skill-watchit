@@ -2,12 +2,15 @@
     "interactionModel": {
         "languageModel": {
             "invocationName": "watch it",
-            "intents": [{
+            "intents": [
+                {
                     "name": "GetSynopsisIntent",
-                    "slots": [{
-                        "name": "title",
-                        "type": "AMAZON.Movie"
-                    }],
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
                     "samples": [
                         "Trouve moi le résumé de {title}",
                         "Trouve moi le résumé du {title}",
@@ -19,10 +22,12 @@
                 },
                 {
                     "name": "GetLengthIntent",
-                    "slots": [{
-                        "name": "title",
-                        "type": "AMAZON.Movie"
-                    }],
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
                     "samples": [
                         "Donne moi la durée de {title}",
                         "Quel est la durée de {title}",
@@ -32,10 +37,12 @@
                 },
                 {
                     "name": "GetGenreIntent",
-                    "slots": [{
-                        "name": "title",
-                        "type": "AMAZON.Movie"
-                    }],
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
                     "samples": [
                         "Donne moi le genre de {title}",
                         "Donne moi le genre du {title}",
@@ -49,10 +56,12 @@
                 },
                 {
                     "name": "GetYearIntent",
-                    "slots": [{
-                        "name": "title",
-                        "type": "AMAZON.Movie"
-                    }],
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
                     "samples": [
                         "Année de {title}",
                         "Année de création {title}",
@@ -84,10 +93,12 @@
                 },
                 {
                     "name": "ChoiceIntent",
-                    "slots": [{
-                        "name": "choice",
-                        "type": "choice"
-                    }],
+                    "slots": [
+                        {
+                            "name": "choice",
+                            "type": "choice"
+                        }
+                    ],
                     "samples": [
                         "{choice}"
                     ]
@@ -132,30 +143,70 @@
                         "Combien il y a t-il d'épisode a la saison {numberSeason} de {title}",
                         "Combien il y a t-il d'épisode sur la saison {numberSeason} de {title}"
                     ]
+                },
+                {
+                    "name": "GetLastEpisodeIntent",
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
+                    "samples": [
+                        "Dernière épisode de la série {title}",
+                        "Donne moi le dernière épisode de la série {title}",
+                        "Donne moi le dernière épisode du {title}",
+                        "Donne moi le dernière épisode de {title}",
+                        "Dernière épisode du {title}",
+                        "Dernière épisode de {title}",
+                        "Quel est le dernière épisode du {title}",
+                        "Quel est le dernière épisode de {title}"
+                    ]
+                },
+                {
+                    "name": "GetDirectorMovieIntent",
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
+                    "samples": [
+                        "Qui a réalisé le film {title}",
+                        "Qui a réalisé {title}",
+                        "Réalisateur du {title}",
+                        "Réalisateur de {title}",
+                        "Qui est le réalisateur du {title}",
+                        "Qui est le réalisateur du film {title}",
+                        "Qui est le réalisateur de {title}"
+                    ]
                 }
             ],
-            "types": [{
-                "name": "choice",
-                "values": [{
-                        "name": {
-                            "value": "série",
-                            "synonyms": [
-                                "series",
-                                "séries",
-                                "serie"
-                            ]
+            "types": [
+                {
+                    "name": "choice",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "série",
+                                "synonyms": [
+                                    "series",
+                                    "séries",
+                                    "serie"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "film",
+                                "synonyms": [
+                                    "films"
+                                ]
+                            }
                         }
-                    },
-                    {
-                        "name": {
-                            "value": "film",
-                            "synonyms": [
-                                "films"
-                            ]
-                        }
-                    }
-                ]
-            }]
+                    ]
+                }
+            ]
         }
     }
 }
