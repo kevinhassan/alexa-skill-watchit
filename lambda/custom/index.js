@@ -426,28 +426,6 @@ const handlers = {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
         }
     },
-    'GetCharactersIntent': function() {
-        const title = this.event.request.intent.slots.title.value
-        const vm = this
-        if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
-                .then(function(response) {
-                    if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
-                        const genres = (vm.attributes.choice === 'film') ? response.data.movies[0].genres : response.data.shows[0].genres
-                        const speechOutput = title + ' a pour genre : ' + genres.join(', ')
-                        vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
-                        ).listen()
-                        return vm.emit(':responseReady')
-                    } else {
-                        return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
-                    }
-                })
-        } else {
-            return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
-
-        }
-    },
     'AMAZON.HelpIntent': function() {
         this.response.speak('aide').listen('re aide')
         this.emit(':responseReady')
