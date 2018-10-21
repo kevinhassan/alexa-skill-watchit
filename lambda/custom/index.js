@@ -5,12 +5,12 @@ const Helpers = require('./helpers')
 const Utils = require('./utils')
 
 const SynopsisUtterance = [
-    "Trouve moi le résumé de {title}",
-    "Trouve moi le résumé du {title}",
-    "Quel est le résumé de {title}",
-    "Donne moi le résumé de {title}",
-    "Résumé de {title}",
-    "Résumé du {title}"
+    "Trouve moi le résumé de Arrow",
+    "Trouve moi le résumé du Arrow",
+    "Quel est le résumé de Arrow",
+    "Donne moi le résumé de Arrow",
+    "Résumé de Arrow",
+    "Résumé du Arrow"
 ]
 
 const resumeNotExist = [
@@ -20,92 +20,98 @@ const resumeNotExist = [
 ]
 
 const yearUtterance = [
-    "Année de {nom de l'oeuvre}",
-    "Année de création {nom de l'oeuvre}",
-    "Quel est l'année de {nom de l'oeuvre}",
-    "Quel est l'année de création de {nom de l'oeuvre}",
-    "En quel année a été créé {nom de l'oeuvre}",
-    "L'année de creation de {nom de l'oeuvre}"
+    "Année de Flash",
+    "Année de création Flash",
+    "Quel est l'année de Flash",
+    "Quel est l'année de création de Flash",
+    "En quel année a été créé Flash",
+    "L'année de creation de Flash"
 ]
 
 const lengthUtterrance = [
-    "Donne moi la durée de {nom de l'oeuvre}",
-    "Quel est la durée de {nom de l'oeuvre}",
-    "Durée de {nom de l'oeuvre}",
-    "Durée du {nom de l'oeuvre}"
+    "Donne moi la durée de Flash",
+    "Quel est la durée de Flash",
+    "Durée de Flash",
+    "Durée du Flash"
 ]
 
 const genreUtterance = [
-    "Donne moi le genre de {nom de l'oeuvre}",
-    "Donne moi le genre du {nom de l'oeuvre}",
-    "Quel est le genre de {nom de l'oeuvre}",
-    "Quel sont les genres de {nom de l'oeuvre}",
-    "Quel sont les genres du {nom de l'oeuvre}",
-    "Quel est le genre du {nom de l'oeuvre}",
-    "Genre de {nom de l'oeuvre}",
-    "Genre du {nom de l'oeuvre}"
+    "Donne moi le genre de Flash",
+    "Donne moi le genre du Flash",
+    "Quel est le genre de Flash",
+    "Quel sont les genres de Flash",
+    "Quel sont les genres du Flash",
+    "Quel est le genre du Flash",
+    "Genre de Flash",
+    "Genre du Flash"
 ]
 
 const numberSeasonUtterance = [
-    "Quel est la dernière saison de {nom de l'oeuvre}",
-    "Quel est la dernière saison de la série {nom de l'oeuvre}",
-    "Combien de saison a la série {nom de l'oeuvre} ",
-    "Combien de saison a {nom de l'oeuvre} ",
-    "Trouve moi le nombre de saison de {nom de l'oeuvre}",
-    "Trouve moi le nombre de saison de la série {nom de l'oeuvre}"
+    "Quel est la dernière saison de Flash",
+    "Quel est la dernière saison de la série Flash",
+    "Combien de saison a la série Flash ",
+    "Combien de saison a Flash ",
+    "Trouve moi le nombre de saison de Flash",
+    "Trouve moi le nombre de saison de la série Flash"
 ]
 
 const numberEpisodesUtterance = [
-    "Combien d'épisode a la saison {numéro de la saison} de {nom de l'oeuvre}",
-    "Combien d'épisode a la saison {numéro de la saison} de la série {nom de l'oeuvre}",
-    "Combien d'épisode a {nom de l'oeuvre}",
-    "Combien d'épisode a la série {nom de l'oeuvre}",
-    "Combien il y a t-il d'épisode a la série {nom de l'oeuvre}",
-    "Combien il y a t-il d'épisode sur {nom de l'oeuvre}",
-    "Combien il y a t-il d'épisode sur la série {nom de l'oeuvre}",
-    "Combien il y a t-il d'épisode a la saison {numéro de la saison} de {nom de l'oeuvre}",
-    "Combien il y a t-il d'épisode sur la saison {numéro de la saison} de {nom de l'oeuvre}"
+    "Combien d'épisode a la saison 1 de Flash",
+    "Combien d'épisode a la saison 1 de la série Flash",
+    "Combien d'épisode a Flash",
+    "Combien d'épisode a la série Flash",
+    "Combien il y a t-il d'épisode a la série Flash",
+    "Combien il y a t-il d'épisode sur Flash",
+    "Combien il y a t-il d'épisode sur la série Flash",
+    "Combien il y a t-il d'épisode a la saison 1 de Flash",
+    "Combien il y a t-il d'épisode sur la saison 1 de Flash"
 ]
 
 const dernierEpisodeUtterance = [
-    "Dernier épisode de la série {nom de l'oeuvre}",
-    "Donne moi le dernier épisode de la série {nom de l'oeuvre}",
-    "Donne moi le dernier épisode du {nom de l'oeuvre}",
-    "Donne moi le dernier épisode de {nom de l'oeuvre}",
-    "Dernier épisode du {nom de l'oeuvre}",
-    "Dernier épisode de {nom de l'oeuvre}",
-    "Quel est le dernier épisode du {nom de l'oeuvre}",
-    "Quel est le dernier épisode de {nom de l'oeuvre}"
+    "Dernier épisode de la série Flash",
+    "Donne moi le dernier épisode de la série Flash",
+    "Donne moi le dernier épisode du Flash",
+    "Donne moi le dernier épisode de Flash",
+    "Dernier épisode du Flash",
+    "Dernier épisode de Flash",
+    "Quel est le dernier épisode du Flash",
+    "Quel est le dernier épisode de Flash"
 ]
 
 const directorMovieUtterance = [
-    "Qui a réalisé le film {nom de l'oeuvre}",
-    "Qui a réalisé {nom de l'oeuvre}",
-    "Réalisateur du {nom de l'oeuvre}",
-    "Réalisateur de {nom de l'oeuvre}",
-    "Qui est le réalisateur du {nom de l'oeuvre}",
-    "Qui est le réalisateur du film {nom de l'oeuvre}",
-    "Qui est le réalisateur de {nom de l'oeuvre}"
+    "Qui a réalisé le film Flash",
+    "Qui a réalisé Flash",
+    "Réalisateur du Flash",
+    "Réalisateur de Flash",
+    "Qui est le réalisateur du Flash",
+    "Qui est le réalisateur du film Flash",
+    "Qui est le réalisateur de Flash"
 ]
 
 const markUtterance = [
-    "Quelle est la note moyenne du {nom de l'oeuvre}",
-    "Note moyenne du {nom de l'oeuvre} ",
-    "Note moyenne de {nom de l'oeuvre} ",
-    "Quelle est la note moyenne de {nom de l'oeuvre} ",
-    "Quelle est la note du {nom de l'oeuvre}",
-    "Note du {nom de l'oeuvre}",
-    "Note de {nom de l'oeuvre} ",
-    "Quelle est la note de {nom de l'oeuvre}"
+    "Quelle est la note moyenne du Flash",
+    "Note moyenne du Flash ",
+    "Note moyenne de Flash ",
+    "Quelle est la note moyenne de Flash ",
+    "Quelle est la note du Flash",
+    "Note du Flash",
+    "Note de Flash ",
+    "Quelle est la note de Flash"
 ]
 
 const networkUtterance = [
-    "Qui est le diffuseur de la série {nom de l'oeuvre}",
-    "Qui est le diffuseur de {nom de l'oeuvre}",
-    "Où puis je voir la série {nom de l'oeuvre}",
-    "Qui diffuse la série {nom de l'oeuvre}",
-    "Où puis je voir {nom de l'oeuvre}",
-    "Qui diffuse {nom de l'oeuvre}"
+    "Qui est le diffuseur de la série Flash",
+    "Qui est le diffuseur de Flash",
+    "Où puis je voir la série Flash",
+    "Qui diffuse la série Flash",
+    "Où puis je voir Flash",
+    "Qui diffuse Flash"
+]
+
+const charactersUtterance = [
+    "Quels sont les personnages de Arrow",
+    "Les personnages de Arrow",
+    "Qui joue dans Arrow"
 ]
 const choiceUtterance = [
     'Que voulez vous savoir ? ',
@@ -156,14 +162,14 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         const vm = this
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
                 .then(function(response) {
                     if (Utils.request.movieExist || Utils.request.serieExist) {
                         const synopsis = (vm.attributes.choice === 'film') ? response.data.movies[0].synopsis : response.data.shows[0].description
                         vm.attributes.title = title
                         vm.response.speak(synopsis +
                             'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)).listen()
+                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)).listen()
 
                         return vm.emit(':responseReady')
                     } else {
@@ -183,7 +189,7 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'série'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
             .then(function(response) {
                 if (Utils.request.serieExist(response)) {
                     var speechOutput = 'Le diffuseur de la série ' + title + ' est : '
@@ -193,8 +199,8 @@ const handlers = {
                         vm.response.speak(Helpers.responseHelper(networkNotFound) + title).listen()
                         return vm.emit(':responseReady')
                     }
-                    vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                        Helpers.responseHelper(SynopsisUtterance) + '<break time="2s"/>' + Helpers.responseHelper(dernierEpisodeUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance) + '<break time="2s"/>' + Helpers.responseHelper(numberSeasonUtterance)).listen()
+                    vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(dernierEpisodeUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance) + '<break time="1s"/>' + Helpers.responseHelper(numberSeasonUtterance)).listen()
                     return vm.emit(':responseReady')
                 } else {
                     vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
@@ -210,14 +216,14 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         const vm = this
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
                 .then(function(response) {
                     if (Utils.request.movieExist || Utils.request.serieExist) {
                         const mark = (vm.attributes.choice === 'film') ? response.data.movies[0].notes.mean : response.data.shows[0].notes.mean
                         vm.attributes.title = title
                         const speechOutput = 'La note moyenne de ' + title + ' est : ' + mark + 'sur 5'
-                        vm.response.speak(speechOutput + speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="2s"/>' + Helpers.responseHelper(directorMovieUtterance)).listen()
+                        vm.response.speak(speechOutput + speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance) + '<break time="1s"/>' + Helpers.responseHelper(directorMovieUtterance)).listen()
                         return vm.emit(':responseReady')
                     } else {
                         vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
@@ -236,12 +242,12 @@ const handlers = {
         const vm = this
         const title = this.event.request.intent.slots.title.value
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
                 .then(function(response) {
                     const year = (vm.attributes.choice === 'film') ? response.data.movies[0].production_year : response.data.shows[0].creation
                     const speechOutput = "L'année de création de " + title + ' est ' + year + '.'
-                    vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                        Helpers.responseHelper(SynopsisUtterance) + '<break time="2s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="2s"/>' + Helpers.responseHelper(lengthUtterrance)
+                    vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(lengthUtterrance)
                     ).listen('Quels autres informations voulez vous obtenir ?')
                     return vm.emit(':responseReady')
                 })
@@ -261,14 +267,14 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'série'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
             .then(function(response) {
                 if (Utils.request.serieExist(response)) {
                     const nbSeason = response.data.shows[0].seasons
                     var speechOutput = 'La série ' + title + ' a ' + nbSeason
                     speechOutput += (nbSeason === 1) ? ' saison' : ' saisons'
-                    vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                        Helpers.responseHelper(numberEpisodesUtterance) + '<break time="2s"/>' + Helpers.responseHelper(lengthUtterrance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
+                    vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        Helpers.responseHelper(numberEpisodesUtterance) + '<break time="1s"/>' + Helpers.responseHelper(lengthUtterrance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                     ).listen()
                     return vm.emit(':responseReady')
                 } else {
@@ -284,7 +290,7 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'série'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
             .then(function(response) {
                 if (Utils.request.serieExist(response)) {
                     var speechOutput = 'La série ' + title
@@ -303,8 +309,8 @@ const handlers = {
                     }
                     speechOutput += ' a ' + nbEpisode
                     speechOutput += (nbEpisode === 1) ? ' épisode.' : ' épisodes.'
-                    vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                        Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
+                    vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                     ).listen()
                     return vm.emit(':responseReady')
                 } else {
@@ -320,7 +326,7 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'film'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
             .then(function(response) {
                 if (Utils.request.movieExist(response)) {
                     var speechOutput = 'Le film ' + title
@@ -330,8 +336,8 @@ const handlers = {
                     } else {
                         speechOutput = 'Aucune information n`a été trouvé concernant le réalisateur du film ' + title
                     }
-                    vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                        Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
+                    vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                     ).listen()
                     return vm.emit(':responseReady')
                 } else {
@@ -348,13 +354,13 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         const vm = this
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
                 .then(function(response) {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const length = (vm.attributes.choice === 'film') ? Utils.time('film', response.data.movies[0].length) : Utils.time('série', response.data.shows[0].length)
                         const speechOutput = 'La durée de ' + title + ' est de : ' + length
-                        vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(SynopsisUtterance) + '<break time="2s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="2s"/>' + Helpers.responseHelper(yearUtterance)
+                        vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                            Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(yearUtterance)
                         ).listen()
                         return vm.emit(':responseReady')
                     } else {
@@ -373,7 +379,7 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         this.attributes.choice = 'série'
         const vm = this
-        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
             .then(function(response) {
                 if (Utils.request.serieExist(response)) {
                     var speechOutput = 'Le dernier épisode de la série ' + title
@@ -382,8 +388,8 @@ const handlers = {
                         const nbSeason = response.data.shows[0].seasons_details.length
                         nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
                         speechOutput += ' est l\'épisode ' + nbEpisode + ' de la saison ' + nbSeason
-                        vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(numberEpisodesUtterance) + '<break time="2s"/>' + Helpers.responseHelper(numberSeasonUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
+                        vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                            Helpers.responseHelper(numberEpisodesUtterance) + '<break time="1s"/>' + Helpers.responseHelper(numberSeasonUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                         ).listen()
                         return vm.emit(':responseReady')
                     } else {
@@ -404,14 +410,14 @@ const handlers = {
         const title = this.event.request.intent.slots.title.value
         const vm = this
         if (this.attributes && this.attributes.choice) {
-            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
                 .then(function(response) {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const genres = (vm.attributes.choice === 'film') ? response.data.movies[0].genres : response.data.shows[0].genres
                         const speechOutput = title + ' a pour genre : ' + genres.join(', ')
 
-                        vm.response.speak(speechOutput + '<break time="2s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(yearUtterance) + '<break time="2s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="2s"/>' + Helpers.responseHelper(markUtterance)
+                        vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                         ).listen()
                         return vm.emit(':responseReady')
                     } else {
@@ -426,6 +432,43 @@ const handlers = {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
         }
     },
+    'GetCharactersIntent': function() {
+        const title = this.event.request.intent.slots.title.value
+        const vm = this
+        if (this.attributes && this.attributes.choice) {
+            axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'search'))
+                .then(function(response) {
+                    if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
+                        const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
+                        const type = (choice === 'film') ? 'movies' : 'shows'
+                        var speechOutput = ''
+                        axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }, 'characters'))
+                            .then(function(response2) {
+                                const firstFives = response2.characters.splice(5, response2.characters.length - 5)
+                                firstFives.forEach(function(item, index, array) {
+                                    speechOutput += item.actor + " dans le role de : " + item.name + '<break time="1s"/>'
+                                })
+                                vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                                    Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
+                                ).listen()
+                                return vm.emit(':responseReady')
+
+                            }).catch(function(err) {
+                                console.error(err)
+                                return vm.emit(':ask', Helpers.responseHelper(errorResponses))
+                            })
+                    } else {
+                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
+                        return vm.emit(':responseReady')
+                    }
+                }).catch(function(err) {
+                    console.error(err)
+                    return vm.emit(':ask', Helpers.responseHelper(errorResponses))
+                })
+        } else {
+            return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+        }
+    }
     'AMAZON.HelpIntent': function() {
         this.response.speak('aide').listen('re aide')
         this.emit(':responseReady')

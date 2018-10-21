@@ -194,6 +194,18 @@
                         "Où puis je voir {title}",
                         "Qui diffuse {title}"
                     ]
+                },
+                {
+                    "name": "GetCharactersIntent",
+                    "slots": [{
+                        "name": "title",
+                        "type": "AMAZON.Movie"
+                    }],
+                    "samples": [
+                        "Quels sont les personnages de {title}",
+                        "Les personnages de {title}",
+                        "Qui joue dans {title}"
+                    ]
                 }
             ],
             "types": [{
