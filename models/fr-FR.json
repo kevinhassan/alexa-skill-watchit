@@ -180,6 +180,42 @@
                         "Qui est le réalisateur du film {title}",
                         "Qui est le réalisateur de {title}"
                     ]
+                },
+                {
+                    "name": "GetMarkIntent",
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
+                    "samples": [
+                        "Quelle est la note moyenne du {title}",
+                        "Note moyenne du {title} ",
+                        "Note moyenne de {title} ",
+                        "Quelle est la note moyenne de {title} ",
+                        "Quelle est la note du {title}",
+                        "Note du {title}",
+                        "Note de {title} ",
+                        "Quelle est la note de {title}"
+                    ]
+                },
+                {
+                    "name": "GetNetworkIntent",
+                    "slots": [
+                        {
+                            "name": "title",
+                            "type": "AMAZON.Movie"
+                        }
+                    ],
+                    "samples": [
+                        "Qui est le diffuseur de la série {title}",
+                        "Qui est le diffuseur de {title}",
+                        "Où puis je voir la série {title}",
+                        "Qui diffuse la série {title}",
+                        "Où puis je voir {title}",
+                        "Qui diffuse {title}"
+                    ]
                 }
             ],
             "types": [

@@ -79,6 +79,56 @@ const handlers = {
       return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
     }
   },
+  'GetNetworkIntent': function () {
+    const title = this.event.request.intent.slots.title.value
+    this.attributes.choice = 'série'
+    const vm = this
+    axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+      .then(function (response) {
+        if (Utils.request.serieExist(response)) {
+          var speechOutput = 'Le diffuseur de la série ' + title + ' est : '
+          if (response.data.shows[0].network) {
+            speechOutput += response.data.shows[0].network
+          } else {
+            vm.response.speak('Aucune information\'a été trouvé concernant le diffuseur de la série ' + title).listen()
+            return vm.emit(':responseReady')
+          }
+          vm.response.speak(speechOutput).listen()
+          return vm.emit(':responseReady')
+        } else {
+          vm.response.speak('Aucune information n\'a été trouvé concernant la série.').listen()
+          return vm.emit(':responseReady')
+        }
+      })
+      .catch(function (err) {
+        console.error(err)
+        return vm.emit(':ask', 'Une erreur est survenue. Veuillez réessayer.')
+      })
+  },
+  'GetMarkIntent': function () {
+    const title = this.event.request.intent.slots.title.value
+    const vm = this
+    if (this.attributes && this.attributes.choice) {
+      axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
+        .then(function (response) {
+          if (Utils.request.movieExist || Utils.request.serieExist) {
+            const mark = (vm.attributes.choice === 'film') ? response.data.movies[0].notes.mean : response.data.shows[0].notes.mean
+            vm.attributes.title = title
+            vm.response.speak('La note moyenne de ' + title + ' est : ' + mark + 'sur 5').listen()
+            return vm.emit(':responseReady')
+          } else {
+            vm.response.speak('Aucune information n\'a été trouvé.').listen()
+            return vm.emit(':responseReady')
+          }
+        })
+        .catch(function (err) {
+          console.error(err)
+          return vm.emit(':ask', Helpers.responseHelper(errorResponses))
+        })
+    } else {
+      return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
+    }
+  },
   'GetYearIntent': function () {
     const vm = this
     const title = this.event.request.intent.slots.title.value
@@ -107,7 +157,7 @@ const handlers = {
     const vm = this
     axios.get(Helpers.linkHelper(this.attributes.choice, { 'title': title }))
       .then(function (response) {
-        if (Utils.request.serieChecker(response)) {
+        if (Utils.request.serieExist(response)) {
           const nbSeason = response.data.shows[0].seasons
           var speechOutput = 'La série ' + title + ' a ' + nbSeason
           speechOutput += (nbSeason === 1) ? ' saison' : ' saisons'
@@ -133,16 +183,11 @@ const handlers = {
           var nbEpisode = -1
           if (vm.event.request.intent.slots.numberSeason && vm.event.request.intent.slots.numberSeason.value) {
             const nbSeason = vm.event.request.intent.slots.numberSeason.value
-            if (response.data.shows[0]) {
-              if (response.data.shows[0].seasons_details[nbSeason - 1] && response.data.shows[0].seasons_details[nbSeason - 1].episodes) {
-                nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
-                speechOutput += ' saison ' + nbSeason
-              } else {
-                vm.response.speak('La série ' + title + ' n\'a pas de saison ' + nbSeason).listen()
-                return vm.emit(':responseReady')
-              }
+            if (response.data.shows[0].seasons_details[nbSeason - 1] && response.data.shows[0].seasons_details[nbSeason - 1].episodes) {
+              nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
+              speechOutput += ' saison ' + nbSeason
             } else {
-              vm.response.speak('Aucune information concernant la série ' + title + '.').listen()
+              vm.response.speak('La série ' + title + ' n\'a pas de saison ' + nbSeason).listen()
               return vm.emit(':responseReady')
             }
           } else {
@@ -178,7 +223,7 @@ const handlers = {
           vm.response.speak(speechOutput).listen()
           return vm.emit(':responseReady')
         } else {
-          vm.response.speak("Je n'ai pas trouvé d'informations sur le film : " + title).listen()
+          vm.response.speak("Je n'ai pas trouvé d'informations sur ce film .").listen()
           return vm.emit(':responseReady')
         }
       })
@@ -198,7 +243,7 @@ const handlers = {
             vm.response.speak('La durée de ' + title + ' est de : ' + length).listen()
             return vm.emit(':responseReady')
           } else {
-            vm.response.speak('Aucune information concernant la durée de ' + title + '.').listen()
+            vm.response.speak('Aucune information trouvée.').listen()
             return vm.emit(':responseReady')
           }
         }).catch(function (err) {
@@ -218,18 +263,19 @@ const handlers = {
         if (Utils.request.serieExist(response)) {
           var speechOutput = 'Le dernier épisode de la série ' + title
           var nbEpisode = -1
-          if (response.data.shows[0] && response.data.shows[0].seasons_details) {
+          if (response.data.shows[0].seasons_details) {
             const nbSeason = response.data.shows[0].seasons_details.length
             nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
             speechOutput += ' est l\'épisode ' + nbEpisode + ' de la saison ' + nbSeason
             vm.response.speak(speechOutput).listen()
             return vm.emit(':responseReady')
           } else {
-            vm.response.speak('Aucune information concernant la série ' + title + '.').listen()
+            vm.response.speak('Aucune information trouvée concernant la série.').listen()
             return vm.emit(':responseReady')
           }
         } else {
-          return vm.emit(':ask', "Je n'ai pas trouvé le nombre d'épisode de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre d\'épisode ?')
+          vm.response.speak("Je n'ai pas trouvé d'informations sur la série").listen()
+          return vm.emit(':responseBody')
         }
       })
       .catch(function (err) {
@@ -248,7 +294,7 @@ const handlers = {
             vm.response.speak(title + ' a pour genre : ' + genres.join(', ')).listen()
             return vm.emit(':responseReady')
           } else {
-            vm.response.speak('Aucune information concernant le genre de :' + title).listen()
+            vm.response.speak('Aucune information trouvée sur le genre trouvé.').listen()
             return vm.emit(':responseReady')
           }
         }).catch(function (err) {
