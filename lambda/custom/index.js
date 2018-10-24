@@ -424,10 +424,12 @@ const handlers = {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
                         var speechOutput = 'Les acteurs de ' + title + 'sont : '
-                        axios.get(Helpers.linkHelper(vm.attributes.choice, { 'id': id }, 'characters'))
+                        const vm2 = vm
+                        axios.get(Helpers.linkHelper(vm2.attributes.choice, { 'id': id }, 'characters'))
                             .then(function(response2) {
-                                if (response2.similars.length > 5) {
-                                    const firstFives = response2.characters.splice(5, response2.characters.length - 5)
+
+                                if (response2.data.characters.length > 5) {
+                                    const firstFives = response2.data.characters.splice(0, 4)
                                     firstFives.forEach(function(item, index, array) {
                                         speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
                                     })
@@ -436,14 +438,14 @@ const handlers = {
                                         speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
                                     })
                                 }
-                                vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                                vm2.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                                     Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
                                 ).listen()
-                                return vm.emit(':responseReady')
+                                return vm2.emit(':responseReady')
 
                             }).catch(function(err) {
                                 console.error(err)
-                                return vm.emit(':ask', Helpers.responseHelper(errorResponses))
+                                return vm2.emit(':ask', Helpers.responseHelper(errorResponses))
                             })
                     } else {
                         vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
@@ -466,11 +468,14 @@ const handlers = {
                     if (Utils.request.movieExist(response) || Utils.request.serieExist(response)) {
                         const id = (vm.attributes.choice === 'film') ? response.data.movies[0].id : response.data.shows[0].id
                         var speechOutput = 'Les ' + vm.attributes.choice + 'similaires à ' + title + " sont : "
+                        const vm2 = vm
                         axios.get(Helpers.linkHelper(vm.attributes.choice, { 'id': id }, 'similars'))
                             .then(function(response2) {
-                                if (response2.similars.length > 0) {
-                                    if (response2.similars.length > 5) {
-                                        const firstFives = response2.characters.splice(5, response2.characters.length - 5)
+                                if (response2.data.similars.length > 0) {
+                                    if (response2.data.similars.length > 5) {
+                                        console.log(response2.data.similars.length)
+                                        const firstFives = response2.data.similars.splice(0, 4)
+                                        console.log(firstFives)
                                         firstFives.forEach(function(item, index, array) {
                                             speechOutput += '<break time="1s"/>' (vm.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
