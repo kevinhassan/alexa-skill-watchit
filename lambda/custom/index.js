@@ -127,6 +127,18 @@ const networkNotFound = [
     "Bétaséries ne détient pas d'information sur le diffuseur de "
 ]
 
+const choicesFilm = [
+    'film',
+    'films'
+]
+
+const choicesSeries = [
+    'série',
+    'serie',
+    'séries',
+    'series'
+]
+
 const handlers = {
     'LaunchRequest': function() {
         this.emit(':ask', 'Bonjour et bienvenue dans la skill WatchIt. Dites série pour des information sur une série ou film si vous voulez des informations sur un film', 'Voulez-vous des informations sur une série ou un film ?')
@@ -134,8 +146,12 @@ const handlers = {
     'ChoiceIntent': function() {
         if (this.event.request.intent.slots.choice.value) {
             const choice = this.event.request.intent.slots.choice.value
-            if (choice === 'film' || choice === 'série') {
-                this.attributes.choice = choice
+            if (choicesFilm.includes(choice) || choicesSeries.includes(choice)) {
+                if (choicesFilm.includes(choice)) {
+                    this.attributes.choice = 'film'
+                } else {
+                    this.attributes.choice = 'série'
+                }
                 return this.emit(':ask', Helpers.responseHelper(choiceUtterance)).listen("Veuillez indiquer l'information que vous voulez obtenir ?")
             }
         }
@@ -150,8 +166,8 @@ const handlers = {
                     if (Utils.request.movieExist || Utils.request.serieExist) {
                         const synopsis = (vm.attributes.choice === 'film') ? response.data.movies[0].synopsis : response.data.shows[0].description
                         vm.attributes.title = title
-                        vm.response.speak(synopsis +
-                            'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        vm.response.speak("Le résumé de " + title + " est : <break time='1s'/>" + synopsis +
+                            '<break time="1s"/> Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                             Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)).listen()
 
                         return vm.emit(':responseReady')
@@ -204,8 +220,8 @@ const handlers = {
                     if (Utils.request.movieExist || Utils.request.serieExist) {
                         const mark = (vm.attributes.choice === 'film') ? response.data.movies[0].notes.mean : response.data.shows[0].notes.mean
                         vm.attributes.title = title
-                        const speechOutput = 'La note moyenne de ' + title + ' est : ' + mark + 'sur 5'
-                        vm.response.speak(speechOutput + speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        const speechOutput = 'La note moyenne de ' + title + ' est : ' + parseFloat(mark).toFixed(1) + ' sur 5'
+                        vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                             Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance) + '<break time="1s"/>' + Helpers.responseHelper(directorMovieUtterance)).listen()
                         return vm.emit(':responseReady')
                     } else {
@@ -429,7 +445,7 @@ const handlers = {
                             .then(function(response2) {
 
                                 if (response2.data.characters.length > 5) {
-                                    const firstFives = response2.data.characters.splice(0, 4)
+                                    const firstFives = response2.data.characters.slice(0, 4)
                                     firstFives.forEach(function(item, index, array) {
                                         speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
                                     })
@@ -474,7 +490,7 @@ const handlers = {
                                 if (response2.data.similars.length > 0) {
                                     if (response2.data.similars.length > 5) {
                                         console.log(response2.data.similars.length)
-                                        const firstFives = response2.data.similars.splice(0, 4)
+                                        const firstFives = response2.data.similars.slice(0, 4)
                                         console.log(firstFives)
                                         firstFives.forEach(function(item, index, array) {
                                             speechOutput += '<break time="1s"/>' (vm.attributes.choice === 'film') ? item.movie_title : item.show_title
