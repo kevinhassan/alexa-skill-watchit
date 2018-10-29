@@ -451,7 +451,7 @@ const handlers = {
                                         speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
                                     })
                                 } else {
-                                    firstFives.forEach(function(item, index, array) {
+                                    response2.data.characters.forEach(function(item, index, array) {
                                         speechOutput += '<break time="1s"/>' + item.actor + " dans le role de : " + item.name
                                     })
                                 }
