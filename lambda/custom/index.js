@@ -168,7 +168,7 @@ const handlers = {
                         vm.attributes.title = title
                         vm.response.speak("Le résumé de " + title + " est : <break time='1s'/>" + synopsis +
                             '<break time="1s"/> Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)).listen()
+                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance)).listen("Vous pouvez dire les phrases suivantes pour continuer : " + '<break time="1s"/>' + Helpers.responseHelper(markUtterance))
 
                         return vm.emit(':responseReady')
                     } else {
@@ -195,14 +195,15 @@ const handlers = {
                     if (response.data.shows[0].network) {
                         speechOutput += response.data.shows[0].network
                     } else {
-                        vm.response.speak(Helpers.responseHelper(networkNotFound) + title).listen()
+                        vm.response.speak(Helpers.responseHelper(networkNotFound) + title).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     }
                     vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                        Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(dernierEpisodeUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance) + '<break time="1s"/>' + Helpers.responseHelper(numberSeasonUtterance)).listen()
+                        Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(dernierEpisodeUtterance)).listen("Vous pouvez dire les phrases suivantes pour continuer : " + '<break time="1s"/>' + Helpers.responseHelper(markUtterance) + '<break time="1s"/>' + Helpers.responseHelper(numberSeasonUtterance))
                     return vm.emit(':responseReady')
                 } else {
-                    vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
+                    vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                        Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseReady')
                 }
             })
@@ -222,10 +223,10 @@ const handlers = {
                         vm.attributes.title = title
                         const speechOutput = 'La note moyenne de ' + title + ' est : ' + parseFloat(mark).toFixed(1) + ' sur 5'
                         vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
-                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance) + '<break time="1s"/>' + Helpers.responseHelper(directorMovieUtterance)).listen()
+                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance) + '<break time="1s"/>' + Helpers.responseHelper(directorMovieUtterance)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     } else {
-                        vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
+                        vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     }
                 })
@@ -254,7 +255,7 @@ const handlers = {
                     console.error(err)
                     var speechOutput = "Je n'ai pas trouvé l'année de création "
                     speechOutput += (vm.attributes.choice === 'film') ? 'du film ' : 'de la série '
-                    vm.response.speak(speechOutput).listen()
+                    vm.response.speak(speechOutput).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseReady')
                 })
         } else {
@@ -274,7 +275,7 @@ const handlers = {
                     speechOutput += (nbSeason === 1) ? ' saison' : ' saisons'
                     vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                         Helpers.responseHelper(numberEpisodesUtterance) + '<break time="1s"/>' + Helpers.responseHelper(lengthUtterrance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                    ).listen()
+                    ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseReady')
                 } else {
                     return vm.emit(':ask', "Je n'ai pas trouvé le nombre de saison de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre de saison ?')
@@ -300,7 +301,7 @@ const handlers = {
                             nbEpisode = response.data.shows[0].seasons_details[nbSeason - 1].episodes
                             speechOutput += ' saison ' + nbSeason
                         } else {
-                            vm.response.speak('La série ' + title + ' n\'a pas de saison ' + nbSeason).listen()
+                            vm.response.speak('La série ' + title + ' n\'a pas de saison ' + nbSeason).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                             return vm.emit(':responseReady')
                         }
                     } else {
@@ -310,7 +311,7 @@ const handlers = {
                     speechOutput += (nbEpisode === 1) ? ' épisode.' : ' épisodes.'
                     vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                         Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                    ).listen()
+                    ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseReady')
                 } else {
                     return vm.emit(':ask', "Je n'ai pas trouvé le nombre d'épisode de la série : " + title, 'Sur quel série voulez-vous obtenir le nombre d\'épisode ?')
@@ -337,10 +338,10 @@ const handlers = {
                     }
                     vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                         Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                    ).listen()
+                    ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseReady')
                 } else {
-                    vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
+                    vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseReady')
                 }
             })
@@ -360,10 +361,10 @@ const handlers = {
                         const speechOutput = 'La durée de ' + title + ' est de : ' + length
                         vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                             Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(genreUtterance) + '<break time="1s"/>' + Helpers.responseHelper(yearUtterance)
-                        ).listen()
+                        ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     } else {
-                        vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
+                        vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     }
                 }).catch(function(err) {
@@ -389,14 +390,14 @@ const handlers = {
                         speechOutput += ' est l\'épisode ' + nbEpisode + ' de la saison ' + nbSeason
                         vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                             Helpers.responseHelper(numberEpisodesUtterance) + '<break time="1s"/>' + Helpers.responseHelper(numberSeasonUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                        ).listen()
+                        ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     } else {
-                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
+                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     }
                 } else {
-                    vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen()
+                    vm.response.speak(Helpers.responseHelper(oeuvreNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                     return vm.emit(':responseBody')
                 }
             })
@@ -417,10 +418,10 @@ const handlers = {
 
                         vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                             Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                        ).listen()
+                        ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     } else {
-                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
+                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     }
                 }).catch(function(err) {
@@ -456,7 +457,7 @@ const handlers = {
                                 }
                                 vm2.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                                     Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                                ).listen()
+                                ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                                 return vm2.emit(':responseReady')
 
                             }).catch(function(err) {
@@ -464,7 +465,7 @@ const handlers = {
                                 return vm2.emit(':ask', Helpers.responseHelper(errorResponses))
                             })
                     } else {
-                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
+                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' + Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(charactersUtterance))
                         return vm.emit(':responseReady')
                     }
                 }).catch(function(err) {
@@ -493,20 +494,28 @@ const handlers = {
                                         const firstFives = response2.data.similars.slice(0, 4)
                                         console.log(firstFives)
                                         firstFives.forEach(function(item, index, array) {
-                                            speechOutput += '<break time="1s"/>' (vm.attributes.choice === 'film') ? item.movie_title : item.show_title
+                                            speechOutput += '<break time="1s"/> ' + (vm2.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
                                     } else {
                                         firstFives.forEach(function(item, index, array) {
-                                            speechOutput += '<break time="1s"/>' (vm.attributes.choice === 'film') ? item.movie_title : item.show_title
+                                            speechOutput += '<break time="1s"/> ' + (vm2.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
                                     }
                                 } else {
-                                    speechOutput = 'Aucun ' + vm.attributes.choice + 'similaires à ' + title + "n'existe"
+                                    if (vm2.attributes.choice === 'film') {
+                                        speechOutput = 'Aucun' + vm2.attributes.choice + 'similaires à ' + title + "n'existe"
+
+                                    } else {
+                                        speechOutput = 'Aucune' + vm2.attributes.choice + 'similaires à ' + title + "n'existe"
+
+                                    }
                                 }
 
                                 vm.response.speak(speechOutput + '<break time="1s"/>' + 'Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
                                     Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
-                                ).listen()
+                                ).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                                    Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
+                                )
                                 return vm.emit(':responseReady')
 
                             }).catch(function(err) {
@@ -514,7 +523,9 @@ const handlers = {
                                 return vm.emit(':ask', Helpers.responseHelper(errorResponses))
                             })
                     } else {
-                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen()
+                        vm.response.speak(Helpers.responseHelper(infNotFound)).listen('Voilà quelques exemples de phrases que vous pouvez dire pour aller plus loin dans votre recherche : ' +
+                            Helpers.responseHelper(yearUtterance) + '<break time="1s"/>' + Helpers.responseHelper(SynopsisUtterance) + '<break time="1s"/>' + Helpers.responseHelper(markUtterance)
+                        )
                         return vm.emit(':responseReady')
                     }
                 }).catch(function(err) {
@@ -524,6 +535,11 @@ const handlers = {
         } else {
             return this.emit(':ask', 'Est-ce une série ou un film ?', "Veuillez indiquer s'il s'agit d'une série ou d'un film")
         }
+    },
+    'Unhandled': function() {
+        this.attributes.speechOutput = this.t('HELP_MESSAGE');
+        this.attributes.repromptSpeech = this.t('HELP_REPROMPT');
+        this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
     },
     'AMAZON.HelpIntent': function() {
         this.response.speak('aide').listen('re aide')

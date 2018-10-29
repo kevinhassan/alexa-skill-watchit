@@ -199,6 +199,7 @@
                     }],
                     "samples": [
                         "Quels sont les oeuvres similaires à {title}",
+                        "Donnes moi les oeuvres ressemblant à {title}",
                         "Similaires à {title}",
                         "Donne moi les oeuvre pareille que {title}",
                         "Pareille que {title}"
