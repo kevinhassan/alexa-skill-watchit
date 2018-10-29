@@ -490,14 +490,12 @@ const handlers = {
                             .then(function(response2) {
                                 if (response2.data.similars.length > 0) {
                                     if (response2.data.similars.length > 5) {
-                                        console.log(response2.data.similars.length)
                                         const firstFives = response2.data.similars.slice(0, 4)
-                                        console.log(firstFives)
                                         firstFives.forEach(function(item, index, array) {
                                             speechOutput += '<break time="1s"/> ' + (vm2.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
                                     } else {
-                                        firstFives.forEach(function(item, index, array) {
+                                        response2.data.similars.forEach(function(item, index, array) {
                                             speechOutput += '<break time="1s"/> ' + (vm2.attributes.choice === 'film') ? item.movie_title : item.show_title
                                         })
                                     }
