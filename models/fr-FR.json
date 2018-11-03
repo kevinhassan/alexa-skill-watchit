@@ -61,19 +61,26 @@
                 },
                 {
                     "name": "AMAZON.HelpIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.StopIntent",
-                    "samples": []
+                    "samples": [
+                        "Aide",
+                        "Comment utilise-t-on cette skill",
+                        "Comment utilise-t-on cette watch it",
+                        "A l'aide",
+                        "Aide moi",
+                        "Commandes",
+                        "Utilisation"
+
+                    ]
                 },
                 {
                     "name": "AMAZON.CancelIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.NavigateHomeIntent",
-                    "samples": []
+                    "samples": [
+                        "Arrête l'intent",
+                        "Arrête toi",
+                        "Laisse tomber",
+                        "Arrête",
+                        "Passons à autre chose"
+                    ]
                 },
                 {
                     "name": "ChoiceIntent",
